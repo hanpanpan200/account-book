@@ -1,0 +1,16 @@
+@import "src/styles/colors";
+@import "src/styles/font";
+@import "src/styles/global";
+
+.container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: $nav-bar-height;
+  background-color: $red;
+
+  .title {
+    color: $white;
+    font-size: $font-size-large;
+  }
+}

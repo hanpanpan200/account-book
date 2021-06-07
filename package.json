@@ -18,10 +18,14 @@
     "typescript": "^4.3.2",
     "web-vitals": "^1.1.2"
   },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.7"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
