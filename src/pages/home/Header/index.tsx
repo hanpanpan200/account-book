@@ -4,12 +4,14 @@ import styles from './index.module.scss'
 
 type IProps = {
   title: string
+  children: JSX.Element[]
 }
 
-const Header: React.FC<IProps> = (props: IProps) => {
+const Header: React.FC<IProps> = ({ title, children }: IProps) => {
   return (
     <header className={styles.container}>
-      <h1 className={styles.title}>{props.title}</h1>
+      <h1 className={styles.title}>{title}</h1>
+      {children}
     </header>
   )
 }

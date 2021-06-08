@@ -1,5 +1,4 @@
 import { LOCALE } from '../constants';
-import { getNow } from './dateUtil';
 
 export enum SortDirection {
   Ascending,

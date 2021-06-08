@@ -1,4 +1,13 @@
-import { Bill, BillGroup, FilterCondition, GroupCondition, RawBill } from 'types/bill';
+import {
+  Bill,
+  BillGroup,
+  BillType,
+  Category,
+  CategoryGroup, CategoryTypeName,
+  FilterCondition,
+  GroupCondition,
+  RawBill
+} from 'types/bill';
 import CATEGORIES from 'fictitiousData/categories';
 import { INVALID_CATEGORY, LOCALE } from '../constants';
 import { getCurrency } from './index';
@@ -53,4 +62,30 @@ export const getGroupedBillBy = (bills: Bill[], groupCondition: GroupCondition):
     return billGroup;
   }
   return bills.reduce(reducer, {});
+}
+
+export const getCategoryGroup = (categories: Category[]): CategoryGroup => {
+  if (!categories || categories.length === 0) return {};
+
+  const reducer = (categoryGroup: CategoryGroup, category: Category) => {
+    let targetKey;
+    switch (category.type) {
+      case BillType.Income:
+        targetKey = CategoryTypeName.Income;
+        break;
+      case BillType.Expenditure:
+        targetKey = CategoryTypeName.Expenditure;
+        break;
+      default:
+        targetKey = CategoryTypeName.Unknown;
+        break;
+    }
+    if (categoryGroup[targetKey]) {
+      categoryGroup[targetKey] = [...categoryGroup[targetKey], category];
+    } else {
+      categoryGroup[targetKey] = [category];
+    }
+    return categoryGroup;
+  }
+  return categories.reduce(reducer, {});
 }

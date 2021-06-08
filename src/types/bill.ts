@@ -4,6 +4,12 @@ export enum BillType {
   Unknown,
 }
 
+export enum CategoryTypeName {
+  Expenditure = '支出',
+  Income = '收入',
+  Unknown = '其他',
+}
+
 export interface Category {
   id: string
   name: string
@@ -30,6 +36,8 @@ export interface Bill {
 }
 
 export type BillGroup = {[key: string]: Bill[]};
+
+export type CategoryGroup = {[key: string]: Category[]};
 
 export interface FilterCondition {
   category?: string
