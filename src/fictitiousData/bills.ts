@@ -1,11 +1,4 @@
-import { BillType } from 'types/bill';
-
-export interface RawBill {
-  type: BillType,
-  time: number
-  category: string
-  amount: number
-}
+import { RawBill } from 'types/bill';
 
 const BILLS: RawBill[] = [
   {

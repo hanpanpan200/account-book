@@ -1,4 +1,5 @@
 import { LOCALE } from '../constants';
+import { getNow } from './dateUtil';
 
 export enum SortDirection {
   Ascending,
@@ -16,3 +17,4 @@ export const getCurrency = (number: number): string => {
   });
   return formatter.format(number);
 }
+

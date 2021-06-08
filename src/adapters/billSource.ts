@@ -1,5 +1,5 @@
-import { Bill } from '../types/bill';
+import { RawBill } from 'types/bill';
 
 export interface BillSource {
-  fetchBills(): Promise<Bill[] | null>;
+  fetchBills(): Promise<RawBill[] | null>;
 }

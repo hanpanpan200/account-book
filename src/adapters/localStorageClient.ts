@@ -1,9 +1,7 @@
-import { Bill } from 'types/bill';
 import BILLS from 'fictitiousData/bills';
-import CATEGORIES from 'fictitiousData/categories';
 import { BillSource } from 'adapters/billSource';
-import { compareNumber, SortDirection } from '../utils';
-import { getFormattedBills } from '../utils/billUtil';
+import { RawBill } from 'types/bill';
+import { compareNumber, SortDirection } from 'utils';
 
 const STORAGE_KEY = {
   BILL_LIST: 'BILL_LIST',
@@ -23,19 +21,17 @@ class LocalStorageClient implements BillSource {
   }
 
   private getLocalBills() {
-    const localBills = this.getItem(STORAGE_KEY.BILL_LIST) as Bill[];
+    const localBills = this.getItem(STORAGE_KEY.BILL_LIST) as RawBill[];
     if (localBills) {
       return localBills;
     }
     const sortedList = BILLS.sort((bill1, bill2) =>
       compareNumber(bill1.time, bill2.time, SortDirection.Descending));
-    const billList = getFormattedBills(sortedList, CATEGORIES);
-
-    this.setItem(STORAGE_KEY.BILL_LIST, billList);
-    return billList;
+    this.setItem(STORAGE_KEY.BILL_LIST, sortedList);
+    return sortedList;
   }
 
-  fetchBills(): Promise<Bill[] | null> {
+  fetchBills(): Promise<RawBill[] | null> {
     const localBills = this.getLocalBills();
     if (localBills) {
       return Promise.resolve(localBills);
