@@ -17,3 +17,7 @@ export const getCurrency = (number: number): string => {
   return formatter.format(number);
 }
 
+export const getYear = (date: Date) => date.getFullYear();
+
+export const getMonth = (date: Date) => date.getMonth() + 1;
+

@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import classNames from 'classnames/bind';
-import cancelIcon from 'assets/icons/cancel.svg';
 import { Category, CategoryGroup } from 'types/bill';
+import ModalOverlay from 'components/ModalOverlay';
+import ModalHeader from 'components/ModalHeader';
+import cancelIcon from 'assets/icons/cancel.svg';
 
 import styles from './index.module.scss';
+import HorizontalSplitter from '../../../components/HorizentalSplitter';
 
 const cx = classNames.bind(styles);
 
@@ -18,12 +21,12 @@ interface Props {
 const CategoryModal: React.FC<Props> = ({ defaultCategory, categoryGroup, visible, onConfirm, onCancel}) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
 
-  const cancel = useCallback(() => {
+  const handleCancel = useCallback(() => {
     setSelectedCategory(defaultCategory);
     onCancel();
   }, [defaultCategory, onCancel]);
 
-  const confirm = useCallback(() => {
+  const handleConfirm = useCallback(() => {
     onConfirm(selectedCategory);
   }, [onConfirm, selectedCategory]);
 
@@ -32,13 +35,10 @@ const CategoryModal: React.FC<Props> = ({ defaultCategory, categoryGroup, visibl
     setSelectedCategory(targetCategory);
   }
   return (
-    <div className={cx(styles.container, {[styles.show]: visible, [styles.hide]: !visible })}>
-      <div className={styles.modal}>
-        <div className={styles.modalHeader}>
-          <span>请选择类型</span>
-          <img src={cancelIcon} onClick={cancel} alt='cancelIcon' />
-        </div>
-        <div className={styles.verticalSplitter} />
+    <ModalOverlay visible={visible}>
+      <div className={styles.container}>
+        <ModalHeader title='选择类型' rightIconSource={cancelIcon} onRightClick={handleCancel} />
+        <HorizontalSplitter />
         <div className={styles.modalContent}>
           {Object.entries(categoryGroup).map(([categoryTypeName, categories]) => {
             return (
@@ -64,13 +64,13 @@ const CategoryModal: React.FC<Props> = ({ defaultCategory, categoryGroup, visibl
             )
           })}
         </div>
-        <div className={styles.verticalSplitter} />
+        <HorizontalSplitter />
         <div className={styles.buttonGroupContainer}>
-          <div className={cx(styles.button, styles.cancel)} onClick={cancel}>取消</div>
-          <div className={cx(styles.button, styles.confirm)} onClick={confirm}>确定</div>
+          <div className={cx(styles.button, styles.cancel)} onClick={handleCancel}>取消</div>
+          <div className={cx(styles.button, styles.confirm)} onClick={handleConfirm}>确定</div>
         </div>
       </div>
-    </div>
+    </ModalOverlay>
   )
 }
 

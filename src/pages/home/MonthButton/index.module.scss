@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  span {
+    font-size: 16px;
+    color: white;
+    margin-right: 5px;
+    line-height: 30px;
+  }
+
+  img {
+    width: 30px;
+    height: 30px
+  }
+}

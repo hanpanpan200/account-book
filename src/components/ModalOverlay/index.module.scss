@@ -1,0 +1,17 @@
+@import "../../styles/colors";
+
+.show {
+  visibility: visible;
+}
+.hide {
+  visibility: hidden;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, .6);
+  position: absolute;
+  top: 0;
+}
