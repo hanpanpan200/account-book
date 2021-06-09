@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
+import { Category } from 'types/bill';
 import allIcon from 'assets/icons/all.svg';
 import styles from './index.module.scss';
-import { Category } from '../../../types/bill';
 
-interface IProps {
+interface Props {
   category?: Category
   onClick: () => void
 }
 
-const CategoryButton:React.FC<IProps> = ({ category, onClick }) => {
+const CategoryButton:React.FC<Props> = ({ category, onClick }) => {
   const categoryLabel = useMemo(() => category?.name || '全部类型', [category?.name])
 
   return (
