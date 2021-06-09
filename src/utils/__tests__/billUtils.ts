@@ -1,5 +1,8 @@
-import { FilterCondition, GroupCondition, RawBill } from 'types/bill';
-import { getBillGroupBy, getBills } from '../billUtil';
+import { BillType, CategoryTypeName, FilterCondition, GroupCondition, RawBill } from 'types/bill';
+import { getBillGroupBy, getBills, getCategoryGroup } from '../billUtil';
+import carLoanIcon from 'assets/icons/car-loan.svg';
+import salaryIcon from 'assets/icons/salary.svg';
+import otherIcon from 'assets/icons/other.svg';
 
 jest.mock('fictitiousData/categories', () => ([
   { id: '1', type: 0, name: '车贷' },
@@ -18,7 +21,7 @@ const categoryGroup = GroupCondition.Category;
 
 const bill1 = {
   amount: 5400,
-  currency: '¥5,400.00',
+  currency: '-¥5,400.00',
   category: {
     id: '1',
     name: '车贷',
@@ -34,7 +37,7 @@ const bill1 = {
 
 const bill2 = {
   amount: 1500,
-  currency: '¥1,500.00',
+  currency: '-¥1,500.00',
   category: {
     id: '2',
     name: '车辆保养',
@@ -74,11 +77,12 @@ describe('getBillGroupBy', () => {
     expect(billGroup).toEqual({ '其他': [
       {
         amount: 1500,
-        currency: '¥1,500.00',
+        currency: '-¥1,500.00',
         category: {
           id: 'UNKNOWN',
           name: '其他',
-          type: 2
+          type: 2,
+          icon: "other.svg"
         },
         day: 1,
         id: 0,
@@ -105,4 +109,36 @@ describe('getBillGroupBy', () => {
     const billGroup = getBillGroupBy(rawBills, nonCategoryFilterCondition, categoryGroup);
     expect(billGroup).toEqual({'车贷': [ bill1 ], '车辆保养': [ bill2 ] });
   });
-})
+});
+
+describe('getCategoryGroup', () => {
+  const category1 = {
+    id: '1',
+    type: BillType.Income,
+    name: '工资',
+    icon: salaryIcon,
+  }
+  const category2 = {
+    id: '2',
+    type: BillType.Expenditure,
+    name: '车贷',
+    icon: carLoanIcon,
+  }
+  const category3 = {
+    id: '3',
+    type: BillType.Unknown,
+    name: '未知类别',
+    icon: otherIcon,
+  }
+
+  it('should return blank when getCategoryGroup given categories are empty', () => {
+    expect(getCategoryGroup([])).toEqual({});
+  });
+  it('should return blank when getCategoryGroup given categories are provided', () => {
+    expect(getCategoryGroup([category1, category2, category3])).toEqual({
+      [CategoryTypeName.Income]: [category1],
+      [CategoryTypeName.Expenditure]: [category2],
+      [CategoryTypeName.Unknown]: [category3],
+    });
+  });
+});

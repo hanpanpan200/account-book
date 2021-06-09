@@ -10,7 +10,7 @@ import {
 } from 'types/bill';
 import CATEGORIES from 'fictitiousData/categories';
 import { INVALID_CATEGORY, LOCALE } from '../constants';
-import { getCurrency } from './index';
+import { getCurrency, getDate, getMonth, getYear } from './index';
 import { getTime } from './dateUtil';
 
 export const getBills = (rawBills: RawBill[]): Bill[] => {
@@ -19,12 +19,12 @@ export const getBills = (rawBills: RawBill[]): Bill[] => {
     return {
       id: index,
       amount: billData.amount,
-      currency: getCurrency(billData.amount),
+      currency: getCurrency(billData.amount, billData.type),
       category: CATEGORIES.find(category => category.id === billData.category) || INVALID_CATEGORY,
       type: billData.type,
-      year: createdTime.getFullYear(),
-      month: createdTime.getMonth() + 1,
-      day: createdTime.getDay(),
+      year: getYear(createdTime),
+      month: getMonth(createdTime),
+      day: getDate(createdTime),
       time: createdTime.toLocaleTimeString(LOCALE, {
         hour: '2-digit',
         minute: '2-digit',

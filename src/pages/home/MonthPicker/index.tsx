@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import DatePicker from 'rmc-date-picker';
 import 'rmc-picker/assets/index.css';
 import 'rmc-date-picker/assets/index.css';
@@ -18,6 +18,10 @@ interface Props {
 
 const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCancel }) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(defaultDate);
+
+  useEffect(() => {
+    setSelectedDate(defaultDate);
+  }, [defaultDate]);
 
   const handleCancel = useCallback(() => {
     setSelectedDate(defaultDate);
@@ -46,6 +50,7 @@ const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCance
         />
         <HorizontalSplitter />
         <DatePicker
+          date={selectedDate}
           use12Hours
           mode='month'
           locale={zhCn}

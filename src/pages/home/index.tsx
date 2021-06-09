@@ -9,6 +9,7 @@ import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import MonthButton from './MonthButton';
 import MonthPicker from './MonthPicker';
+import BillList from './BillList';
 
 import styles from './index.module.scss';
 
@@ -72,12 +73,14 @@ const Home: React.FC = () => {
     toggleMonthFilter();
   }
 
+  console.log('billGroup=====', billGroup);
   return (
     <div className={styles.container}>
       <Header title='我的账本'>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilter}/>
       </Header>
+      <BillList billGroup={billGroup} />
       <CategoryModal
         defaultCategory={category}
         categoryGroup={categoryGroup}

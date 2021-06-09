@@ -215,7 +215,7 @@ const BILLS: RawBill[] = [
     type: 1,
     time: 1567094400000,
     category: '1vjj47vpd28',
-    amount: -3000
+    amount: 3000
   },
   {
     type: 1,

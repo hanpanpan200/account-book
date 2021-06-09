@@ -14,6 +14,7 @@ export interface Category {
   id: string
   name: string
   type: BillType
+  icon: string
 }
 
 export interface RawBill {
