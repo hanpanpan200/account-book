@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Header from 'pages/home/Header'
 import client from 'adapters/localStorageClient';
 import { BillGroup, Category, CategoryGroup, GroupCondition } from 'types/bill';
-import { getBillGroupBy, getCategoryGroup, } from 'utils/billUtil';
+import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
 import { getNow } from 'utils/dateUtil';
 import { getMonth, getYear } from 'utils';
 import CategoryButton from './CategoryButton';
@@ -10,6 +10,7 @@ import CategoryModal from './CategoryModal';
 import MonthButton from './MonthButton';
 import MonthPicker from './MonthPicker';
 import BillList from './BillList';
+import StatisticsPanel from './StatisticsPanel';
 
 import styles from './index.module.scss';
 
@@ -73,13 +74,17 @@ const Home: React.FC = () => {
     toggleMonthFilter();
   }
 
-  console.log('billGroup=====', billGroup);
+  const showExpenditureRanking = () => {
+
+  }
+
   return (
     <div className={styles.container}>
       <Header title='我的账本'>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilter}/>
       </Header>
+      <StatisticsPanel totalIncome='22.22' totalExpenditure='22.22' onClick={showExpenditureRanking}/>
       <BillList billGroup={billGroup} />
       <CategoryModal
         defaultCategory={category}
