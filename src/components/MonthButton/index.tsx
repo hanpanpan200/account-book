@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
+import { getMonth, getYear } from 'utils';
 import arrowDownIcon from 'assets/icons/arrow-down.svg';
 
 import styles from './index.module.scss';
-import { getMonth, getYear } from '../../../utils';
 
 interface Props {
   date?: Date

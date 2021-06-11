@@ -4,10 +4,10 @@ import styles from './index.module.scss'
 
 type Props = {
   title: string
-  children: JSX.Element[]
+  children?: JSX.Element[]
 }
 
-const Header: React.FC<Props> = ({ title, children }: Props) => {
+const PageHeader: React.FC<Props> = ({ title, children }: Props) => {
   return (
     <header className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
@@ -16,4 +16,4 @@ const Header: React.FC<Props> = ({ title, children }: Props) => {
   )
 }
 
-export default Header
+export default PageHeader

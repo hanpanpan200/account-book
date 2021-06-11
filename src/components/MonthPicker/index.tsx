@@ -5,9 +5,9 @@ import 'rmc-date-picker/assets/index.css';
 import zhCn from 'rmc-date-picker/lib/locale/zh_CN'
 import ModalHeader from 'components/ModalHeader';
 import ModalOverlay from 'components/ModalOverlay';
+import HorizontalSplitter from '../HorizentalSplitter';
 
 import styles from './index.module.scss'
-import HorizontalSplitter from '../../../components/HorizentalSplitter';
 
 interface Props {
   defaultDate?: Date
