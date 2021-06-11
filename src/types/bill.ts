@@ -50,3 +50,8 @@ export enum GroupCondition {
   Date,
   Category,
 }
+
+export interface Statistics {
+  totalExpenditure: number
+  totalIncome: number
+}

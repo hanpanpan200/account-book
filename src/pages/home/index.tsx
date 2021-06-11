@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from 'pages/home/Header'
 import client from 'adapters/localStorageClient';
-import { BillGroup, Category, CategoryGroup, GroupCondition } from 'types/bill';
-import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
+import { Bill, BillGroup, Category, CategoryGroup, GroupCondition, Statistics } from 'types/bill';
+import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from 'utils/billUtil';
 import { getNow } from 'utils/dateUtil';
-import { getMonth, getYear } from 'utils';
+import { getCurrency, getMonth, getYear } from 'utils';
+import { DEFAULT_STATISTICS } from '../../constants';
 import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import MonthButton from './MonthButton';
@@ -20,30 +21,42 @@ const Home: React.FC = () => {
   const [isCategoryModalVisible, setIsCategoryModalVisible] = useState<boolean>(false);
   const [isMonthFilterVisible, setIsMonthFilterVisible] = useState<boolean>(false);
 
+  const [bills, setBills] = useState<Bill[]>([]);
   const [billGroup, setBillGroup] = useState<BillGroup>({});
   const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
+  const [statistics, setStatistics] = useState<Statistics>(DEFAULT_STATISTICS);
 
   useEffect(() => {
     setDate(getNow());
   }, [])
 
   useEffect(() => {
-    if (!date) return;
-
     client.fetchBills().then((rawBills) => {
       if (rawBills) {
-        const filter = {
-          category: category?.id,
-          year: getYear(date),
-          month: getMonth(date),
-        };
-        const billGroup = getBillGroupBy(rawBills, filter, GroupCondition.Date);
-        setBillGroup(billGroup);
+        const allBills = getBills(rawBills);
+        setBills(allBills);
       }
     }).catch(() => {
-      console.log('failed to load bills')
+      console.log('load raw bills error.');
     });
-  }, [category?.id, date]);
+  }, []);
+
+  useEffect(() => {
+    if (!date) return;
+    const filter = {
+      category: category?.id,
+      year: getYear(date),
+      month: getMonth(date),
+    };
+    const billGroup = getBillGroupBy(bills, filter, GroupCondition.Date);
+    setBillGroup(billGroup);
+  }, [bills, category?.id, date]);
+
+  useEffect(() => {
+    if (!date) return;
+    const statisticsForSelectedMonth = getStatisticsBy(bills, date, DEFAULT_STATISTICS);
+    setStatistics(statisticsForSelectedMonth);
+  }, [bills, date]);
 
   useEffect(() => {
     client.fetchCategories().then((categories) => {
@@ -78,13 +91,21 @@ const Home: React.FC = () => {
 
   }
 
+  const totalIncomeCurrency = useMemo(() => getCurrency(statistics.totalIncome),
+    [statistics.totalIncome]);
+  const totalExpenditureCurrency = useMemo(() => getCurrency(statistics.totalExpenditure),
+    [statistics.totalExpenditure]);
   return (
     <div className={styles.container}>
       <Header title='我的账本'>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilter}/>
       </Header>
-      <StatisticsPanel totalIncome='22.22' totalExpenditure='22.22' onClick={showExpenditureRanking}/>
+      <StatisticsPanel
+        totalIncome={totalIncomeCurrency}
+        totalExpenditure={totalExpenditureCurrency}
+        onClick={showExpenditureRanking}
+      />
       <BillList billGroup={billGroup} />
       <CategoryModal
         defaultCategory={category}

@@ -1,12 +1,13 @@
 import { BillType, CategoryTypeName, FilterCondition, GroupCondition, RawBill } from 'types/bill';
-import { getBillGroupBy, getBills, getCategoryGroup } from '../billUtil';
+import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
+import { DEFAULT_STATISTICS } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
 import salaryIcon from 'assets/icons/salary.svg';
 import otherIcon from 'assets/icons/other.svg';
 
 jest.mock('fictitiousData/categories', () => ([
-  { id: '1', type: 0, name: '车贷' },
-  { id: '2', type: 0, name: '车辆保养' },
+  { id: '1', type: 0, name: '车贷', icon: '' },
+  { id: '2', type: 0, name: '车辆保养', icon: '' },
 ]));
 
 const rawBills: RawBill[] = [
@@ -25,7 +26,8 @@ const bill1 = {
   category: {
     id: '1',
     name: '车贷',
-    type: 0
+    type: 0,
+    icon: ''
   },
   day: 1,
   id: 0,
@@ -41,7 +43,8 @@ const bill2 = {
   category: {
     id: '2',
     name: '车辆保养',
-    type: 0
+    type: 0,
+    icon: ''
   },
   day: 1,
   id: 1,
@@ -50,6 +53,8 @@ const bill2 = {
   type: 0,
   year: 2019
 }
+
+const bills = [bill1, bill2];
 
 describe('getBills', () => {
   it('should return bill view model when getBills is called given params are provided ', () => {
@@ -63,17 +68,17 @@ describe('getBillGroupBy', () => {
     expect(billGroup).toEqual({});
   });
   it('should return blank group when getBillGroupBy is called given not match filters', () => {
-    const billGroup = getBillGroupBy(rawBills,
+    const billGroup = getBillGroupBy(bills,
       {...categoryFilterCondition, category: 'wrongCategory'}, dateGroup);
     expect(billGroup).toEqual({});
   });
   it('should return blank group when getBillGroupBy is called given rawBill category is invalid and group condition is Category', () => {
-    const billGroup = getBillGroupBy([{
-      type: 0,
-      time: 1561910400000,
-      category: 'wrongCategory',
-      amount: 1500
-    }], nonCategoryFilterCondition, categoryGroup);
+    const billGroup = getBillGroupBy([{...bill2, category: {
+        id: 'UNKNOWN',
+        name: '其他',
+        type: 2,
+        icon: 'other.svg'
+      }}], nonCategoryFilterCondition, categoryGroup);
     expect(billGroup).toEqual({ '其他': [
       {
         amount: 1500,
@@ -85,7 +90,7 @@ describe('getBillGroupBy', () => {
           icon: "other.svg"
         },
         day: 1,
-        id: 0,
+        id: 1,
         month: 7,
         time: '24:00',
         type: 0,
@@ -94,19 +99,19 @@ describe('getBillGroupBy', () => {
     ] });
   });
   it('should return bill group correctly when getBillGroupBy is called given category filter is provided and group condition is Date', () => {
-    const billGroup = getBillGroupBy(rawBills, categoryFilterCondition, dateGroup);
+    const billGroup = getBillGroupBy(bills, categoryFilterCondition, dateGroup);
     expect(billGroup).toEqual({'7月1日': [ bill1 ] });
   });
   it('should return bill group correctly when getBillGroupBy is called given category filter is not provided and group condition is Date', () => {
-    const billGroup = getBillGroupBy(rawBills, nonCategoryFilterCondition, dateGroup);
+    const billGroup = getBillGroupBy(bills, nonCategoryFilterCondition, dateGroup);
     expect(billGroup).toEqual({'7月1日': [ bill1, bill2 ] });
   });
   it('should return bill group correctly when getBillGroupBy is called given category filter is provided and group condition is Category', () => {
-    const billGroup = getBillGroupBy(rawBills, categoryFilterCondition, categoryGroup);
+    const billGroup = getBillGroupBy(bills, categoryFilterCondition, categoryGroup);
     expect(billGroup).toEqual({'车贷': [ bill1 ] });
   });
   it('should return bill group correctly when getBillGroupBy is called given category filter is not provided and group condition is Category', () => {
-    const billGroup = getBillGroupBy(rawBills, nonCategoryFilterCondition, categoryGroup);
+    const billGroup = getBillGroupBy(bills, nonCategoryFilterCondition, categoryGroup);
     expect(billGroup).toEqual({'车贷': [ bill1 ], '车辆保养': [ bill2 ] });
   });
 });
@@ -139,6 +144,19 @@ describe('getCategoryGroup', () => {
       [CategoryTypeName.Income]: [category1],
       [CategoryTypeName.Expenditure]: [category2],
       [CategoryTypeName.Unknown]: [category3],
+    });
+  });
+});
+
+describe('getStatisticsBy', () => {
+  it('should return default statistics when getStatistics is called given bills are blank', () => {
+    expect(getStatisticsBy([], new Date(), DEFAULT_STATISTICS)).toEqual(DEFAULT_STATISTICS);
+  });
+  it('should return statistics when getStatistics is called given params are provided', () => {
+    const date = new Date(bill1.year, bill1.month - 1);
+    expect(getStatisticsBy(bills, date, DEFAULT_STATISTICS)).toEqual({
+      totalExpenditure: bill1.amount + bill2.amount,
+      totalIncome: 0,
     });
   });
 });

@@ -9,7 +9,7 @@ export const compareNumber = (number1: number, number2: number, direction: SortD
   return direction === SortDirection.Ascending ? number1 - number2 : number2 - number1;
 }
 
-export const getCurrency = (number: number, type: BillType): string => {
+export const getCurrency = (number: number, type?: BillType): string => {
   const formatter = new Intl.NumberFormat(LOCALE, {
     style: 'currency',
     currency: 'CNY',
