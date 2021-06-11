@@ -40,6 +40,13 @@ export type BillGroup = {[key: string]: Bill[]};
 
 export type CategoryGroup = {[key: string]: Category[]};
 
+export interface CategorizedBill {
+  category: Category
+  totalAmount: number
+  totalAmountCurrency: string
+  rate: number
+}
+
 export interface FilterCondition {
   category?: string
   year: number

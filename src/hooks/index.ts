@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import client from 'adapters/localStorageClient';
 import { getCurrency } from 'utils';
 import { getNow } from 'utils/dateUtil';
+import { fetchBills } from 'utils/request';
 import { getBills, getStatisticsBy } from 'utils/billUtil';
-import { Bill, Statistic } from 'types/bill';
+import { Bill, Category, Statistic } from 'types/bill';
 import { DEFAULT_STATISTIC } from '../constants';
 
 type UseToggleResult = [boolean, () => void];
@@ -24,24 +24,24 @@ export const useDateFilter = (defaultValue?: Date):UseDateFilterResult => {
   return [date, setDate];
 }
 
-export const useInitialBills = (): Bill[] => {
+export const useInitialBills = (categories: Category[]): Bill[] => {
   const [bills, setBills] = useState<Bill[]>([]);
 
   useEffect(() => {
-    client.fetchBills().then((rawBills) => {
+    fetchBills().then((rawBills) => {
       if (rawBills) {
-        const allBills = getBills(rawBills);
+        const allBills = getBills(rawBills, categories);
         setBills(allBills);
       }
     }).catch(() => {
       console.log('load raw bills error.');
     });
-  }, []);
+  }, [categories]);
 
   return bills;
 }
 
-export const useStatistic = (bills: Bill[], date: Date): Statistic => {
+export const useMonthStatistic = (bills: Bill[], date: Date): Statistic => {
   const [statistic, setStatistic] = useState<Statistic>(DEFAULT_STATISTIC);
   useEffect(() => {
     if (!date) return;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import client from 'adapters/localStorageClient';
 import { BillGroup, Category, CategoryGroup, GroupCondition } from 'types/bill';
 import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
 import { getMonth, getYear } from 'utils';
 import ROUTE from 'constants/route';
-import { useDateFilter, useInitialBills, useOnOffToggle, useStatistic } from 'hooks';
+import { useDateFilter, useInitialBills, useOnOffToggle, useMonthStatistic } from 'hooks';
+import { useInitialCategories } from '../expenditureRanking/hooks';
 import PageHeader from 'components/PageHeader';
 import MonthButton from 'components/MonthButton';
 import MonthPicker from 'components/MonthPicker';
@@ -18,8 +18,9 @@ import styles from './index.module.scss';
 
 const Home: React.FC = () => {
   const [date, setDate] = useDateFilter();
-  const bills = useInitialBills();
-  const statistic = useStatistic(bills, date);
+  const categories = useInitialCategories();
+  const bills = useInitialBills(categories);
+  const statistic = useMonthStatistic(bills, date);
   const [category, setCategory] = useState<Category | undefined>();
   const [billGroup, setBillGroup] = useState<BillGroup>({});
   const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
@@ -41,15 +42,8 @@ const Home: React.FC = () => {
   }, [bills, category?.id, date]);
 
   useEffect(() => {
-    client.fetchCategories().then((categories) => {
-      if (categories) {
-        const categoryGroup = getCategoryGroup(categories);
-        setCategoryGroup(categoryGroup);
-      }
-    }).catch(() => {
-      console.log('failed to load categories')
-    })
-  }, [])
+    setCategoryGroup(getCategoryGroup(categories));
+  }, [categories])
 
   const updateCategory = (category: Category | undefined) => {
     setCategory(category);

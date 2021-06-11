@@ -7,8 +7,8 @@ const cx = classNames.bind(styles);
 
 interface Props {
   iconSource: string
-  title: string
-  description: string
+  title: string | React.ReactElement
+  description: string | React.ReactElement
   content: string
 }
 

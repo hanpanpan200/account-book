@@ -1,7 +1,9 @@
+import { add, divide, multiply, round } from 'mathjs';
 import {
   Bill,
   BillGroup,
   BillType,
+  CategorizedBill,
   Category,
   CategoryGroup,
   CategoryTypeName,
@@ -10,20 +12,19 @@ import {
   RawBill,
   Statistic
 } from 'types/bill';
-import CATEGORIES from 'fictitiousData/categories';
 import { INVALID_CATEGORY, LOCALE } from '../constants';
-import { getCurrency, getDate, getMonth, getYear } from './index';
+import { compareNumber, getCurrency, getDate, getMonth, getYear, SortDirection } from './index';
 import { getTime } from './dateUtil';
 
-export const getBills = (rawBills: RawBill[]): Bill[] => {
-  return rawBills.map((billData, index) => {
-    const createdTime = getTime(billData.time);
+export const getBills = (rawBills: RawBill[], categories: Category[]): Bill[] => {
+  return rawBills.map((rawBill, index) => {
+    const createdTime = getTime(rawBill.time);
     return {
       id: index,
-      amount: billData.amount,
-      currency: getCurrency(billData.amount, billData.type),
-      category: CATEGORIES.find(category => category.id === billData.category) || INVALID_CATEGORY,
-      type: billData.type,
+      amount: rawBill.amount,
+      currency: getCurrency(rawBill.amount, rawBill.type),
+      category: categories.find(category => category.id === rawBill.category) || INVALID_CATEGORY,
+      type: rawBill.type,
       year: getYear(createdTime),
       month: getMonth(createdTime),
       day: getDate(createdTime),
@@ -36,9 +37,36 @@ export const getBills = (rawBills: RawBill[]): Bill[] => {
   });
 }
 
+export const getTotalAmount = (rawBills: RawBill[]) =>
+  rawBills.reduce((sum, bill) => {
+    return add(sum, bill.amount) as number
+  }, 0);
+
 export const getBillGroupBy = (bills: Bill[], filterCondition: FilterCondition, groupCondition: GroupCondition) => {
   const filteredBills = getFilteredBillsBy(bills, filterCondition);
   return getGroupedBillBy(filteredBills, groupCondition);
+}
+
+export const getCategorizedBills =
+  (rawBills: RawBill[], categories: Category[], totalExpenditure: number): CategorizedBill[] => {
+  if (!categories || categories.length === 0 || !rawBills || rawBills.length === 0) return [];
+
+  const categorizedBills = categories.map(category => {
+    const billsForCategory = rawBills.filter(rawBill => rawBill.category === category.id);
+    const totalAmount = getTotalAmount(billsForCategory);
+    return {
+      category: category,
+      totalAmount,
+      totalAmountCurrency: getCurrency(totalAmount),
+      rate: round(divide(totalAmount, totalExpenditure), 4)
+    } as CategorizedBill
+  });
+
+  return categorizedBills
+    .filter(bill => bill.totalAmount > 0)
+    .sort((bill1, bill2) =>
+      compareNumber(bill1.totalAmount, bill2.totalAmount, SortDirection.Descending)
+    );
 }
 
 export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Statistic) => {
@@ -46,14 +74,25 @@ export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Sta
       if (bill.year !== getYear(date) || bill.month !== getMonth(date)) return statistic;
 
       if (bill.type === BillType.Income) {
-        statistic.totalIncome += bill.amount;
+        statistic.totalIncome = add(statistic.totalIncome, bill.amount) as number;
       }
       if (bill.type === BillType.Expenditure) {
-        statistic.totalExpenditure += bill.amount;
+        statistic.totalExpenditure = add(statistic.totalExpenditure, bill.amount) as number;
       }
       return statistic;
   }
   return bills.reduce(reducer, { ...defaultStatistic });
+};
+
+export const getFilteredRawBills = (rawBills: RawBill[], billType: BillType, date: Date): RawBill[] => {
+  if (!rawBills || rawBills.length === 0) return [];
+
+  return rawBills.filter(rawBill => {
+    const createdTime = new Date(rawBill.time);
+    const createdYear = getYear(createdTime);
+    const createdMonth = getMonth(createdTime);
+    return rawBill.type === billType && createdYear === getYear(date) && createdMonth === getMonth(date);
+  })
 };
 
 const getFilteredBillsBy = (bills: Bill[], filter: FilterCondition): Bill[] => {
@@ -105,3 +144,8 @@ export const getCategoryGroup = (categories: Category[]): CategoryGroup => {
   }
   return categories.reduce(reducer, {});
 }
+
+export const getRateString = (categorizedBill: CategorizedBill) =>
+  `${round(multiply(categorizedBill.rate, 100), 2)}%`;
+
+export const getPercentage = (rate: number) => round(multiply(rate, 100), 2);

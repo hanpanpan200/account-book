@@ -2,6 +2,7 @@ import { BillType, CategoryTypeName, FilterCondition, GroupCondition, RawBill } 
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
 import { DEFAULT_STATISTIC } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
+import carMaintenanceIcon from 'assets/icons/car-maintenance.svg';
 import salaryIcon from 'assets/icons/salary.svg';
 import otherIcon from 'assets/icons/other.svg';
 
@@ -27,7 +28,7 @@ const bill1 = {
     id: '1',
     name: '车贷',
     type: 0,
-    icon: ''
+    icon: 'car-loan.svg'
   },
   day: 1,
   id: 0,
@@ -44,7 +45,7 @@ const bill2 = {
     id: '2',
     name: '车辆保养',
     type: 0,
-    icon: ''
+    icon: 'car-maintenance.svg'
   },
   day: 1,
   id: 1,
@@ -58,7 +59,19 @@ const bills = [bill1, bill2];
 
 describe('getBills', () => {
   it('should return bill view model when getBills is called given params are provided ', () => {
-    expect(getBills(rawBills)).toEqual([ bill1, bill2 ]);
+    const category1 = {
+      id: '1',
+      type: BillType.Expenditure,
+      name: '车贷',
+      icon: carLoanIcon,
+    }
+    const category2 = {
+      id: '2',
+      type: BillType.Expenditure,
+      name: '车辆保养',
+      icon: carMaintenanceIcon,
+    }
+    expect(getBills(rawBills, [category1, category2])).toEqual([ bill1, bill2 ]);
   });
 });
 
