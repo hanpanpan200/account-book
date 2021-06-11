@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useCurrency } from 'hooks';
 import { Statistic } from 'types/bill';
+import { useCurrency } from '../hooks';
 import ModalHeader, { TitlePosition } from 'components/ModalHeader';
 import HorizontalSplitter from 'components/HorizentalSplitter';
 import arrowRightIcon from 'assets/icons/arrow-right.svg';
