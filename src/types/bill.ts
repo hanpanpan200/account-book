@@ -51,7 +51,7 @@ export enum GroupCondition {
   Category,
 }
 
-export interface Statistics {
+export interface Statistic {
   totalExpenditure: number
   totalIncome: number
 }

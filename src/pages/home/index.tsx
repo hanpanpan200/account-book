@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from 'pages/home/Header'
 import client from 'adapters/localStorageClient';
-import { Bill, BillGroup, Category, CategoryGroup, GroupCondition, Statistics } from 'types/bill';
+import { Bill, BillGroup, Category, CategoryGroup, GroupCondition, Statistic } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from 'utils/billUtil';
 import { getNow } from 'utils/dateUtil';
 import { getCurrency, getMonth, getYear } from 'utils';
-import { DEFAULT_STATISTICS } from '../../constants';
+import { DEFAULT_STATISTIC } from '../../constants';
 import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import MonthButton from './MonthButton';
 import MonthPicker from './MonthPicker';
 import BillList from './BillList';
-import StatisticsPanel from './StatisticsPanel';
+import StatisticPanel from './StatisticPanel';
 
 import styles from './index.module.scss';
 
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   const [bills, setBills] = useState<Bill[]>([]);
   const [billGroup, setBillGroup] = useState<BillGroup>({});
   const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
-  const [statistics, setStatistics] = useState<Statistics>(DEFAULT_STATISTICS);
+  const [statistic, setStatistic] = useState<Statistic>(DEFAULT_STATISTIC);
 
   useEffect(() => {
     setDate(getNow());
@@ -54,8 +54,8 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (!date) return;
-    const statisticsForSelectedMonth = getStatisticsBy(bills, date, DEFAULT_STATISTICS);
-    setStatistics(statisticsForSelectedMonth);
+    const statisticForSelectedMonth = getStatisticsBy(bills, date, DEFAULT_STATISTIC);
+    setStatistic(statisticForSelectedMonth);
   }, [bills, date]);
 
   useEffect(() => {
@@ -91,19 +91,14 @@ const Home: React.FC = () => {
 
   }
 
-  const totalIncomeCurrency = useMemo(() => getCurrency(statistics.totalIncome),
-    [statistics.totalIncome]);
-  const totalExpenditureCurrency = useMemo(() => getCurrency(statistics.totalExpenditure),
-    [statistics.totalExpenditure]);
   return (
     <div className={styles.container}>
       <Header title='我的账本'>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilter}/>
       </Header>
-      <StatisticsPanel
-        totalIncome={totalIncomeCurrency}
-        totalExpenditure={totalExpenditureCurrency}
+      <StatisticPanel
+        statistic={statistic}
         onClick={showExpenditureRanking}
       />
       <BillList billGroup={billGroup} />

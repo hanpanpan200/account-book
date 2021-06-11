@@ -1,6 +1,6 @@
 import { BillType, CategoryTypeName, FilterCondition, GroupCondition, RawBill } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
-import { DEFAULT_STATISTICS } from '../../constants';
+import { DEFAULT_STATISTIC } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
 import salaryIcon from 'assets/icons/salary.svg';
 import otherIcon from 'assets/icons/other.svg';
@@ -150,11 +150,11 @@ describe('getCategoryGroup', () => {
 
 describe('getStatisticsBy', () => {
   it('should return default statistics when getStatistics is called given bills are blank', () => {
-    expect(getStatisticsBy([], new Date(), DEFAULT_STATISTICS)).toEqual(DEFAULT_STATISTICS);
+    expect(getStatisticsBy([], new Date(), DEFAULT_STATISTIC)).toEqual(DEFAULT_STATISTIC);
   });
   it('should return statistics when getStatistics is called given params are provided', () => {
     const date = new Date(bill1.year, bill1.month - 1);
-    expect(getStatisticsBy(bills, date, DEFAULT_STATISTICS)).toEqual({
+    expect(getStatisticsBy(bills, date, DEFAULT_STATISTIC)).toEqual({
       totalExpenditure: bill1.amount + bill2.amount,
       totalIncome: 0,
     });

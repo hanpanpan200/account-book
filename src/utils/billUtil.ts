@@ -8,7 +8,7 @@ import {
   FilterCondition,
   GroupCondition,
   RawBill,
-  Statistics
+  Statistic
 } from 'types/bill';
 import CATEGORIES from 'fictitiousData/categories';
 import { INVALID_CATEGORY, LOCALE } from '../constants';
@@ -41,19 +41,19 @@ export const getBillGroupBy = (bills: Bill[], filterCondition: FilterCondition, 
   return getGroupedBillBy(filteredBills, groupCondition);
 }
 
-export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistics: Statistics) => {
-  const reducer = (info: Statistics, bill: Bill) => {
-      if (bill.year !== getYear(date) || bill.month !== getMonth(date)) return info;
+export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Statistic) => {
+  const reducer = (statistic: Statistic, bill: Bill) => {
+      if (bill.year !== getYear(date) || bill.month !== getMonth(date)) return statistic;
 
       if (bill.type === BillType.Income) {
-        info.totalIncome += bill.amount;
+        statistic.totalIncome += bill.amount;
       }
       if (bill.type === BillType.Expenditure) {
-        info.totalExpenditure += bill.amount;
+        statistic.totalExpenditure += bill.amount;
       }
-      return info;
+      return statistic;
   }
-  return bills.reduce(reducer, { ...defaultStatistics });
+  return bills.reduce(reducer, { ...defaultStatistic });
 };
 
 const getFilteredBillsBy = (bills: Bill[], filter: FilterCondition): Bill[] => {
