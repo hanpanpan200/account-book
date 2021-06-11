@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import Header from 'pages/home/Header'
 import client from 'adapters/localStorageClient';
 import { Bill, BillGroup, Category, CategoryGroup, GroupCondition, Statistic } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from 'utils/billUtil';
 import { getNow } from 'utils/dateUtil';
-import { getCurrency, getMonth, getYear } from 'utils';
+import { getMonth, getYear } from 'utils';
 import { DEFAULT_STATISTIC } from '../../constants';
+import ROUTE from 'constants/route';
 import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import MonthButton from './MonthButton';
@@ -25,6 +27,8 @@ const Home: React.FC = () => {
   const [billGroup, setBillGroup] = useState<BillGroup>({});
   const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
   const [statistic, setStatistic] = useState<Statistic>(DEFAULT_STATISTIC);
+
+  const history = useHistory();
 
   useEffect(() => {
     setDate(getNow());
@@ -88,7 +92,7 @@ const Home: React.FC = () => {
   }
 
   const showExpenditureRanking = () => {
-
+    history.push(ROUTE.EXPENDITURE_RANKING);
   }
 
   return (
