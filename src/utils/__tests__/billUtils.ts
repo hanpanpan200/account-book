@@ -1,4 +1,4 @@
-import { BillType, CategoryTypeName, FilterCondition, GroupCondition, RawBill } from 'types/bill';
+import { BillType, CategoryTypeName, FilterCondition, RawBill } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
 import { DEFAULT_STATISTIC } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
@@ -18,8 +18,6 @@ const rawBills: RawBill[] = [
 
 const categoryFilterCondition: FilterCondition = { month: 7, year: 2019, category: '1' };
 const nonCategoryFilterCondition: FilterCondition = { month: 7, year: 2019 };
-const dateGroup = GroupCondition.Date;
-const categoryGroup = GroupCondition.Category;
 
 const bill1 = {
   amount: 5400,
@@ -77,55 +75,21 @@ describe('getBills', () => {
 
 describe('getBillGroupBy', () => {
   it('should return blank group when getBillGroupBy is called given rawBills are blank', () => {
-    const billGroup = getBillGroupBy([], nonCategoryFilterCondition, dateGroup);
+    const billGroup = getBillGroupBy([], nonCategoryFilterCondition);
     expect(billGroup).toEqual({});
   });
   it('should return blank group when getBillGroupBy is called given not match filters', () => {
     const billGroup = getBillGroupBy(bills,
-      {...categoryFilterCondition, category: 'wrongCategory'}, dateGroup);
+      {...categoryFilterCondition, category: 'wrongCategory'});
     expect(billGroup).toEqual({});
   });
-  it('should return blank group when getBillGroupBy is called given rawBill category is invalid and group condition is Category', () => {
-    const billGroup = getBillGroupBy([{...bill2, category: {
-        id: 'UNKNOWN',
-        name: '其他',
-        type: 2,
-        icon: 'other.svg'
-      }}], nonCategoryFilterCondition, categoryGroup);
-    expect(billGroup).toEqual({ '其他': [
-      {
-        amount: 1500,
-        currency: '-¥1,500.00',
-        category: {
-          id: 'UNKNOWN',
-          name: '其他',
-          type: 2,
-          icon: "other.svg"
-        },
-        day: 1,
-        id: 1,
-        month: 7,
-        time: '24:00',
-        type: 0,
-        year: 2019
-      },
-    ] });
-  });
   it('should return bill group correctly when getBillGroupBy is called given category filter is provided and group condition is Date', () => {
-    const billGroup = getBillGroupBy(bills, categoryFilterCondition, dateGroup);
+    const billGroup = getBillGroupBy(bills, categoryFilterCondition);
     expect(billGroup).toEqual({'7月1日': [ bill1 ] });
   });
   it('should return bill group correctly when getBillGroupBy is called given category filter is not provided and group condition is Date', () => {
-    const billGroup = getBillGroupBy(bills, nonCategoryFilterCondition, dateGroup);
+    const billGroup = getBillGroupBy(bills, nonCategoryFilterCondition);
     expect(billGroup).toEqual({'7月1日': [ bill1, bill2 ] });
-  });
-  it('should return bill group correctly when getBillGroupBy is called given category filter is provided and group condition is Category', () => {
-    const billGroup = getBillGroupBy(bills, categoryFilterCondition, categoryGroup);
-    expect(billGroup).toEqual({'车贷': [ bill1 ] });
-  });
-  it('should return bill group correctly when getBillGroupBy is called given category filter is not provided and group condition is Category', () => {
-    const billGroup = getBillGroupBy(bills, nonCategoryFilterCondition, categoryGroup);
-    expect(billGroup).toEqual({'车贷': [ bill1 ], '车辆保养': [ bill2 ] });
   });
 });
 

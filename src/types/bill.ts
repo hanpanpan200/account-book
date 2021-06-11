@@ -53,11 +53,6 @@ export interface FilterCondition {
   month: number
 }
 
-export enum GroupCondition {
-  Date,
-  Category,
-}
-
 export interface Statistic {
   totalExpenditure: number
   totalIncome: number

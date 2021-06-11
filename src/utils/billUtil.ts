@@ -8,7 +8,6 @@ import {
   CategoryGroup,
   CategoryTypeName,
   FilterCondition,
-  GroupCondition,
   RawBill,
   Statistic
 } from 'types/bill';
@@ -42,9 +41,9 @@ export const getTotalAmount = (rawBills: RawBill[]) =>
     return add(sum, bill.amount) as number
   }, 0);
 
-export const getBillGroupBy = (bills: Bill[], filterCondition: FilterCondition, groupCondition: GroupCondition) => {
+export const getBillGroupBy = (bills: Bill[], filterCondition: FilterCondition) => {
   const filteredBills = getFilteredBillsBy(bills, filterCondition);
-  return getGroupedBillBy(filteredBills, groupCondition);
+  return getGroupedBillBy(filteredBills);
 }
 
 export const getCategorizedBills =
@@ -104,11 +103,11 @@ const getFilteredBillsBy = (bills: Bill[], filter: FilterCondition): Bill[] => {
   return bills.filter(bill => bill.month === month && bill.year === year);
 }
 
-export const getGroupedBillBy = (bills: Bill[], groupCondition: GroupCondition): BillGroup => {
+export const getGroupedBillBy = (bills: Bill[]): BillGroup => {
   if (!bills || bills.length === 0) return {};
 
   const reducer = (billGroup: BillGroup, bill: Bill) => {
-    const targetKey = groupCondition === GroupCondition.Date ? `${bill.month}月${bill.day}日` : bill.category.name;
+    const targetKey = `${bill.month}月${bill.day}日`;
     if (billGroup[targetKey]) {
       billGroup[targetKey] = [...billGroup[targetKey], bill];
     } else {

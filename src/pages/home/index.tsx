@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import { BillGroup, Category, CategoryGroup, GroupCondition } from 'types/bill';
+import { BillGroup, Category, CategoryGroup } from 'types/bill';
 import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
 import { getMonth, getYear } from 'utils';
 import ROUTE from 'constants/route';
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
       year: getYear(date),
       month: getMonth(date),
     };
-    const billGroup = getBillGroupBy(bills, filter, GroupCondition.Date);
+    const billGroup = getBillGroupBy(bills, filter);
     setBillGroup(billGroup);
   }, [bills, category?.id, date]);
 
