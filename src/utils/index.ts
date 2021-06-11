@@ -29,9 +29,3 @@ export const getCurrency = (number: number, type?: BillType): string => {
   return `${label}${formatter.format(number)}`;
 }
 
-export const getYear = (date: Date) => date.getFullYear();
-
-export const getDate = (date: Date) => date.getDate();
-
-export const getMonth = (date: Date) => date.getMonth() + 1;
-

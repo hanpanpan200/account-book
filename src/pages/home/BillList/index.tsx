@@ -30,7 +30,7 @@ const BillList:React.FC<Props> = ({ billGroup }) => {
                 <CardItem
                   iconSource={bill.category.icon}
                   title={bill.category.name}
-                  description={bill.time}
+                  description={bill.createdTime}
                   content={bill.currency}
                 />
                 {index < bills.length -1 && <HorizontalSplitter />}

@@ -16,8 +16,8 @@ const rawBills: RawBill[] = [
   { type: 0, time: 1561910400000, category: '2', amount: 1500 },
 ];
 
-const categoryFilterCondition: FilterCondition = { month: 7, year: 2019, category: '1' };
-const nonCategoryFilterCondition: FilterCondition = { month: 7, year: 2019 };
+const categoryFilterCondition: FilterCondition = { date: new Date(2019, 6), category: '1' };
+const nonCategoryFilterCondition: FilterCondition = { date: new Date(2019, 6) };
 
 const bill1 = {
   amount: 5400,
@@ -28,12 +28,10 @@ const bill1 = {
     type: 0,
     icon: 'car-loan.svg'
   },
-  day: 1,
   id: 0,
-  month: 7,
-  time: '24:00',
   type: 0,
-  year: 2019
+  createdDateTime: new Date(2019, 6),
+  createdTime: '24:00',
 }
 
 const bill2 = {
@@ -45,12 +43,10 @@ const bill2 = {
     type: 0,
     icon: 'car-maintenance.svg'
   },
-  day: 1,
   id: 1,
-  month: 7,
-  time: '24:00',
   type: 0,
-  year: 2019
+  createdDateTime: new Date(2019, 6),
+  createdTime: '24:00'
 }
 
 const bills = [bill1, bill2];
@@ -130,8 +126,7 @@ describe('getStatisticsBy', () => {
     expect(getStatisticsBy([], new Date(), DEFAULT_STATISTIC)).toEqual(DEFAULT_STATISTIC);
   });
   it('should return statistics when getStatistics is called given params are provided', () => {
-    const date = new Date(bill1.year, bill1.month - 1);
-    expect(getStatisticsBy(bills, date, DEFAULT_STATISTIC)).toEqual({
+    expect(getStatisticsBy(bills, bill1.createdDateTime, DEFAULT_STATISTIC)).toEqual({
       totalExpenditure: bill1.amount + bill2.amount,
       totalIncome: 0,
     });

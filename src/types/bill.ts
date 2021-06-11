@@ -30,10 +30,8 @@ export interface Bill {
   currency: string
   category: Category
   type: BillType
-  year: number
-  month: number
-  day: number
-  time: string
+  createdDateTime: Date
+  createdTime: string
 }
 
 export type BillGroup = {[key: string]: Bill[]};
@@ -49,8 +47,7 @@ export interface CategorizedBill {
 
 export interface FilterCondition {
   category?: string
-  year: number
-  month: number
+  date: Date
 }
 
 export interface Statistic {

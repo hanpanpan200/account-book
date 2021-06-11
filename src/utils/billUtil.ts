@@ -11,27 +11,21 @@ import {
   RawBill,
   Statistic
 } from 'types/bill';
-import { INVALID_CATEGORY, LOCALE } from '../constants';
-import { compareNumber, getCurrency, getDate, getMonth, getYear, SortDirection } from './index';
-import { getTime } from './dateUtil';
+import { INVALID_CATEGORY } from '../constants';
+import { getDate, getDateTime, getMonth, getTime, getYear, isSameMonth } from './dateUtil';
+import { compareNumber, getCurrency, SortDirection } from './index';
 
 export const getBills = (rawBills: RawBill[], categories: Category[]): Bill[] => {
   return rawBills.map((rawBill, index) => {
-    const createdTime = getTime(rawBill.time);
+    const createdDateTime = getDateTime(rawBill.time);
     return {
       id: index,
       amount: rawBill.amount,
       currency: getCurrency(rawBill.amount, rawBill.type),
       category: categories.find(category => category.id === rawBill.category) || INVALID_CATEGORY,
       type: rawBill.type,
-      year: getYear(createdTime),
-      month: getMonth(createdTime),
-      day: getDate(createdTime),
-      time: createdTime.toLocaleTimeString(LOCALE, {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      })
+      createdDateTime,
+      createdTime: getTime(createdDateTime)
     }
   });
 }
@@ -70,7 +64,7 @@ export const getCategorizedBills =
 
 export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Statistic) => {
   const reducer = (statistic: Statistic, bill: Bill) => {
-      if (bill.year !== getYear(date) || bill.month !== getMonth(date)) return statistic;
+      if (!isSameMonth(date, bill.createdDateTime)) return statistic;
 
       if (bill.type === BillType.Income) {
         statistic.totalIncome = add(statistic.totalIncome, bill.amount) as number;
@@ -96,18 +90,19 @@ export const getFilteredRawBills = (rawBills: RawBill[], billType: BillType, dat
 
 const getFilteredBillsBy = (bills: Bill[], filter: FilterCondition): Bill[] => {
   if (!bills || bills.length === 0) return [];
-  const { year, month, category } = filter;
+  const { date, category } = filter;
   if (category) {
-    return bills.filter(bill => bill.month === month && bill.year === year && bill.category.id === category);
+    return bills.filter(bill => isSameMonth(date, bill.createdDateTime) && bill.category.id === category);
   }
-  return bills.filter(bill => bill.month === month && bill.year === year);
+  return bills.filter(bill => isSameMonth(date, bill.createdDateTime));
 }
 
 export const getGroupedBillBy = (bills: Bill[]): BillGroup => {
   if (!bills || bills.length === 0) return {};
 
   const reducer = (billGroup: BillGroup, bill: Bill) => {
-    const targetKey = `${bill.month}月${bill.day}日`;
+    const { createdDateTime } = bill;
+    const targetKey = `${getMonth(createdDateTime)}月${getDate(createdDateTime)}日`;
     if (billGroup[targetKey]) {
       billGroup[targetKey] = [...billGroup[targetKey], bill];
     } else {

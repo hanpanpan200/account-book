@@ -1,5 +1,5 @@
 import { BillType } from 'types/bill';
-import { compareNumber, getCurrency, getMonth, getYear, SortDirection } from '../index';
+import { compareNumber, getCurrency, SortDirection } from '../index';
 
 describe('compareNumber', () => {
   it('should return -1 when compare 1 and 2 given sort direction is Descending', () => {
@@ -21,13 +21,3 @@ describe('getCurrency', () => {
     expect(getCurrency(333333, BillType.Unknown)).toEqual('¥333,333.00');
   });
 });
-
-describe('getYear', () => {
-  const date = new Date(2021, 6);
-  expect(getYear(date)).toEqual(2021);
-})
-
-describe('getMonth', () => {
-  const date = new Date(2021, 5);
-  expect(getMonth(date)).toEqual(6);
-})

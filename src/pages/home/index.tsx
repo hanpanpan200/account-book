@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { BillGroup, Category, CategoryGroup } from 'types/bill';
 import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
-import { getMonth, getYear } from 'utils';
 import ROUTE from 'constants/route';
 import { useDateFilter, useOnOffToggle } from 'hooks';
 import { useInitialBills, useMonthStatistic } from './hooks';
@@ -35,8 +34,7 @@ const Home: React.FC = () => {
     if (!date) return;
     const filter = {
       category: category?.id,
-      year: getYear(date),
-      month: getMonth(date),
+      date,
     };
     const billGroup = getBillGroupBy(bills, filter);
     setBillGroup(billGroup);
