@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
+import client from 'adapters/localStorageClient';
+import { BillGroup, Category, CategoryGroup, GroupCondition } from 'types/bill';
+import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
+import { getMonth, getYear } from 'utils';
+import ROUTE from 'constants/route';
+import { useDateFilter, useInitialBills, useOnOffToggle, useStatistic } from 'hooks';
 import PageHeader from 'components/PageHeader';
 import MonthButton from 'components/MonthButton';
 import MonthPicker from 'components/MonthPicker';
-import client from 'adapters/localStorageClient';
-import { Bill, BillGroup, Category, CategoryGroup, GroupCondition, Statistic } from 'types/bill';
-import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from 'utils/billUtil';
-import { getNow } from 'utils/dateUtil';
-import { getMonth, getYear } from 'utils';
-import { DEFAULT_STATISTIC } from '../../constants';
-import ROUTE from 'constants/route';
-import { useOnOffToggle } from 'hooks';
 import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import BillList from './BillList';
@@ -19,32 +17,17 @@ import StatisticPanel from './StatisticPanel';
 import styles from './index.module.scss';
 
 const Home: React.FC = () => {
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useDateFilter();
+  const bills = useInitialBills();
+  const statistic = useStatistic(bills, date);
   const [category, setCategory] = useState<Category | undefined>();
-  const [bills, setBills] = useState<Bill[]>([]);
   const [billGroup, setBillGroup] = useState<BillGroup>({});
   const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
-  const [statistic, setStatistic] = useState<Statistic>(DEFAULT_STATISTIC);
 
   const [isMonthFilterVisible, toggleMonthFilterModal ] = useOnOffToggle(false);
   const [isCategoryFilterVisible, toggleCategoryFilterModal] = useOnOffToggle(false);
 
   const history = useHistory();
-
-  useEffect(() => {
-    setDate(getNow());
-  }, [])
-
-  useEffect(() => {
-    client.fetchBills().then((rawBills) => {
-      if (rawBills) {
-        const allBills = getBills(rawBills);
-        setBills(allBills);
-      }
-    }).catch(() => {
-      console.log('load raw bills error.');
-    });
-  }, []);
 
   useEffect(() => {
     if (!date) return;
@@ -56,12 +39,6 @@ const Home: React.FC = () => {
     const billGroup = getBillGroupBy(bills, filter, GroupCondition.Date);
     setBillGroup(billGroup);
   }, [bills, category?.id, date]);
-
-  useEffect(() => {
-    if (!date) return;
-    const statisticForSelectedMonth = getStatisticsBy(bills, date, DEFAULT_STATISTIC);
-    setStatistic(statisticForSelectedMonth);
-  }, [bills, date]);
 
   useEffect(() => {
     client.fetchCategories().then((categories) => {
@@ -85,12 +62,12 @@ const Home: React.FC = () => {
   }
 
   const showExpenditureRanking = () => {
-    history.push(ROUTE.EXPENDITURE_RANKING);
+    history.push(ROUTE.EXPENDITURE_RANKING, { date });
   }
 
   return (
     <div className={styles.container}>
-      <PageHeader title='我的账本'>
+      <PageHeader title='我的账本' style={styles.header}>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilterModal}/>
       </PageHeader>

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
+import { useCurrency } from 'hooks';
+import { Statistic } from 'types/bill';
 import ModalHeader, { TitlePosition } from 'components/ModalHeader';
 import HorizontalSplitter from 'components/HorizentalSplitter';
-import { Statistic } from '../../../types/bill';
-import { getCurrency } from '../../../utils';
 import arrowRightIcon from 'assets/icons/arrow-right.svg';
 
 import styles from './index.module.scss';
@@ -16,10 +16,9 @@ interface Props {
 }
 
 const StatisticPanel: React.FC<Props> = ({ statistic, onClick }) => {
-  const totalIncome = useMemo(
-    () => getCurrency(statistic.totalIncome), [statistic.totalIncome]);
-  const totalExpenditure = useMemo(
-    () => getCurrency(statistic.totalExpenditure), [statistic.totalExpenditure]);
+  const totalExpenditure = useCurrency(statistic.totalExpenditure);
+  const totalIncome = useCurrency(statistic.totalIncome);
+
   return (
     <div className={styles.container}>
       <ModalHeader
