@@ -40,6 +40,11 @@ class LocalStorageClient implements DataSourceAdapter {
     return Promise.reject(null);
   }
 
+  createBill(rawBill: RawBill) {
+    const localBills = this.getLocalBills();
+    this.setItem(STORAGE_KEY.BILL_LIST, [rawBill, ...localBills]);
+  }
+
   fetchCategories(): Promise<Category[]> {
     return Promise.resolve(CATEGORIES);
   }

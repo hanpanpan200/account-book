@@ -9,14 +9,22 @@ import HorizontalSplitter from '../HorizentalSplitter';
 
 import styles from './index.module.scss'
 
+export enum DateTimePickerMode {
+  Month = 'month',
+  DateTime = 'datetime'
+}
+
 interface Props {
   defaultDate?: Date
   visible: boolean
+  mode: DateTimePickerMode
+  title: string
   onCancel: () => void
   onConfirm: (date: Date) => void
 }
 
-const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCancel }) => {
+const DateTimePicker: React.FC<Props> =
+  ({ defaultDate, title, mode, visible, onConfirm, onCancel }) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(defaultDate);
 
   useEffect(() => {
@@ -42,7 +50,7 @@ const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCance
     <ModalOverlay visible={visible}>
       <div className={styles.container}>
         <ModalHeader
-          title='选择月份'
+          title={title}
           leftText='取消'
           rightText='确定'
           onLeftClick={handleCancel}
@@ -50,9 +58,9 @@ const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCance
         />
         <HorizontalSplitter />
         <DatePicker
-          date={selectedDate}
           use12Hours
-          mode='month'
+          date={selectedDate}
+          mode={mode}
           locale={zhCn}
           defaultDate={defaultDate}
           onDateChange={handleDateChange}
@@ -63,4 +71,4 @@ const MonthPicker: React.FC<Props> = ({ defaultDate, visible, onConfirm, onCance
   )
 };
 
-export default MonthPicker;
+export default DateTimePicker;

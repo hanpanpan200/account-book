@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import { BillGroup, Category, CategoryGroup } from 'types/bill';
-import { getBillGroupBy, getCategoryGroup } from 'utils/billUtil';
+import { BillGroup, Category } from 'types/bill';
+import { getBillGroupBy } from 'utils/billUtil';
 import ROUTE from 'constants/route';
-import { useDateFilter, useOnOffToggle } from 'hooks';
+import { useCategoryGroup, useDateFilter, useOnOffToggle, useInitialCategories } from 'hooks';
 import { useInitialBills, useMonthStatistic } from './hooks';
-import { useInitialCategories } from '../expenditureRanking/hooks';
 import PageHeader from 'components/PageHeader';
 import MonthButton from 'components/MonthButton';
-import MonthPicker from 'components/MonthPicker';
+import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';
 import CategoryButton from './CategoryButton';
 import CategoryModal from './CategoryModal';
 import BillList from './BillList';
+import CreateButton from './CreateButton';
 import StatisticPanel from './StatisticPanel';
 
 import styles from './index.module.scss';
@@ -19,11 +19,11 @@ import styles from './index.module.scss';
 const Home: React.FC = () => {
   const [date, setDate] = useDateFilter();
   const categories = useInitialCategories();
+  const categoryGroup = useCategoryGroup(categories);
   const bills = useInitialBills(categories);
   const statistic = useMonthStatistic(bills, date);
   const [category, setCategory] = useState<Category | undefined>();
   const [billGroup, setBillGroup] = useState<BillGroup>({});
-  const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
 
   const [isMonthFilterVisible, toggleMonthFilterModal ] = useOnOffToggle(false);
   const [isCategoryFilterVisible, toggleCategoryFilterModal] = useOnOffToggle(false);
@@ -40,10 +40,6 @@ const Home: React.FC = () => {
     setBillGroup(billGroup);
   }, [bills, category?.id, date]);
 
-  useEffect(() => {
-    setCategoryGroup(getCategoryGroup(categories));
-  }, [categories])
-
   const updateCategory = (category: Category | undefined) => {
     setCategory(category);
     toggleCategoryFilterModal();
@@ -54,8 +50,12 @@ const Home: React.FC = () => {
     toggleMonthFilterModal();
   }
 
-  const showExpenditureRanking = () => {
+  const goToExpenditureRanking = () => {
     history.push(ROUTE.EXPENDITURE_RANKING, { date });
+  }
+
+  const goToCreateBillPage = () => {
+    history.push(ROUTE.CREATE_BILL);
   }
 
   return (
@@ -64,9 +64,10 @@ const Home: React.FC = () => {
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilterModal}/>
       </PageHeader>
+      <CreateButton onClick={goToCreateBillPage} />
       <StatisticPanel
         statistic={statistic}
-        onClick={showExpenditureRanking}
+        onClick={goToExpenditureRanking}
       />
       <BillList billGroup={billGroup} />
       <CategoryModal
@@ -76,8 +77,10 @@ const Home: React.FC = () => {
         onCancel={toggleCategoryFilterModal}
         onConfirm={updateCategory}
       />
-      <MonthPicker
+      <DateTimePicker
         defaultDate={date}
+        mode={DateTimePickerMode.Month}
+        title='选择月份'
         visible={isMonthFilterVisible}
         onCancel={toggleMonthFilterModal}
         onConfirm={updateDate}

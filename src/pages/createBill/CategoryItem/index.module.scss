@@ -1,0 +1,26 @@
+@import '../../../styles/colors';
+
+.selected {
+  background-color: rgba(200,200,200,.2);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 80px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-radius: 10px;
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+  }
+  div {
+    font-size: 16px;
+    color: #7f7f7f;
+  }
+}

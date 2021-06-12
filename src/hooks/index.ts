@@ -1,5 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getNow } from 'utils/dateUtil';
+import { getCategoryGroup } from 'utils/billUtil';
+import { fetchCategories } from 'utils/request';
+import { Category, CategoryGroup } from 'types/bill';
 
 type UseToggleResult = [boolean, () => void];
 
@@ -17,4 +20,26 @@ type UseDateFilterResult = [Date, (date: Date) => void];
 export const useDateFilter = (defaultValue?: Date):UseDateFilterResult => {
   const [date, setDate] = useState<Date>(defaultValue || getNow());
   return [date, setDate];
+}
+
+export const useCategoryGroup = (categories: Category[]): CategoryGroup => {
+  const [categoryGroup, setCategoryGroup] = useState<CategoryGroup>({});
+  useEffect(() => {
+    setCategoryGroup(getCategoryGroup(categories));
+  }, [categories]);
+  return categoryGroup;
+};
+
+export const useInitialCategories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetchCategories().then(categoryList => {
+      setCategories(categoryList);
+    }).catch(() => {
+      console.log('Load categories failed');
+    })
+  }, []);
+
+  return categories;
 }

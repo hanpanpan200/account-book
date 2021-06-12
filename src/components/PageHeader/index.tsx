@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 type Props = {
   title: string
-  children: JSX.Element[] | JSX.Element
+  children?: JSX.Element[] | JSX.Element
   style?: string
 }
 

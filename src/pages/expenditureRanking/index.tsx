@@ -1,16 +1,15 @@
 import React from 'react';
-import { useDateFilter, useOnOffToggle } from 'hooks';
+import { useDateFilter, useInitialCategories, useOnOffToggle } from 'hooks';
 import { useLocation } from 'react-router-dom';
 import RankingList from './RankingList';
 import {
   useCategorizedBills,
   useExpenditureRawBillsForSelectedMonth,
-  useInitialCategories,
   useTotalExpenditureAmount,
   useTotalExpenditureCurrency
 } from './hooks';
 import PageHeader from 'components/PageHeader';
-import MonthPicker from 'components/MonthPicker';
+import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';
 import MonthButton from 'components/MonthButton';
 
 import styles from './index.module.scss';
@@ -41,7 +40,9 @@ const ExpenditureRanking = () => {
         <div className={styles.headerLabel}>总支出: {totalExpenditureCurrency}</div>
       </PageHeader>
       <RankingList categorizedBills={categorizedBills} />
-      <MonthPicker
+      <DateTimePicker
+        title='选择月份'
+        mode={DateTimePickerMode.Month}
         defaultDate={date}
         visible={isMonthFilterVisible}
         onCancel={toggleMonthFilterModal}

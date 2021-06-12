@@ -29,3 +29,8 @@ export const getCurrency = (number: number, type?: BillType): string => {
   return `${label}${formatter.format(number)}`;
 }
 
+export const isValidAmount = (input: string) => {
+  const floatReg = /^\d+.\d+$/;
+  const integerReg = /^\d+$/;
+  return floatReg.test(input) || integerReg.test(input)
+}

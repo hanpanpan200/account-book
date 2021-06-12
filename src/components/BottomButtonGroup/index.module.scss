@@ -1,0 +1,32 @@
+@import "../../styles/colors";
+
+.container {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: content-box;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $white;
+
+  .button {
+    width: 48%;
+    height: 40px;
+    align-items: center;
+    border: 1px solid #DBDBDB;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 40px;
+  }
+  .cancel {
+    color: black;
+    background-color: white;
+  }
+  .confirm {
+    color: white;
+    background-color: $red;
+  }
+}

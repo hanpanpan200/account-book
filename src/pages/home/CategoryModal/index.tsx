@@ -3,10 +3,11 @@ import classNames from 'classnames/bind';
 import { Category, CategoryGroup } from 'types/bill';
 import ModalOverlay from 'components/ModalOverlay';
 import ModalHeader from 'components/ModalHeader';
+import HorizontalSplitter from 'components/HorizentalSplitter';
+import BottomButtonGroup from 'components/BottomButtonGroup';
 import cancelIcon from 'assets/icons/cancel.svg';
 
 import styles from './index.module.scss';
-import HorizontalSplitter from '../../../components/HorizentalSplitter';
 
 const cx = classNames.bind(styles);
 
@@ -65,10 +66,7 @@ const CategoryModal: React.FC<Props> = ({ defaultCategory, categoryGroup, visibl
           })}
         </div>
         <HorizontalSplitter />
-        <div className={styles.buttonGroupContainer}>
-          <div className={cx(styles.button, styles.cancel)} onClick={handleCancel}>取消</div>
-          <div className={cx(styles.button, styles.confirm)} onClick={handleConfirm}>确定</div>
-        </div>
+        <BottomButtonGroup onCancel={handleCancel} onConfirm={handleConfirm} />
       </div>
     </ModalOverlay>
   )

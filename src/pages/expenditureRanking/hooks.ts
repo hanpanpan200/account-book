@@ -1,22 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { fetchBills, fetchCategories } from 'utils/request';
+import { fetchBills } from 'utils/request';
 import { BillType, Category, RawBill } from 'types/bill';
 import { getCategorizedBills, getFilteredRawBills, getTotalAmount } from 'utils/billUtil';
 import { getCurrency } from 'utils';
-
-export const useInitialCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    fetchCategories().then(categoryList => {
-      setCategories(categoryList);
-    }).catch(() => {
-      console.log('Load categories failed');
-    })
-  }, []);
-
-  return categories;
-}
 
 export const useExpenditureRawBillsForSelectedMonth = (date: Date): RawBill[] => {
   const [expenditureBillsForMonth, setExpenditureBillsForMonth] = useState<RawBill[]>([]);
