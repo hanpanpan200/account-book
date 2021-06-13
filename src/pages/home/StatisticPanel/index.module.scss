@@ -1,4 +1,5 @@
 @import "../../../styles/colors";
+@import "../../../styles/global";
 
 .container {
   padding: 10px 10px 0;
@@ -7,8 +8,8 @@
   box-shadow: 0 6px 16px -6px #a4a4a4;
   position: relative;
   top: -60px;
-  z-index: 100;
-  background-color: white;
+  z-index: $z-index-middle;
+  background-color: $white;
 
   .content {
     display: flex;
@@ -29,7 +30,7 @@
       font-size: 16px;
       font-weight: 400;
       margin-bottom: 8px;
-      color: #7f7f7f;
+      color: $darkGray;
     }
     .text {
       max-width: 120px;

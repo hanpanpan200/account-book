@@ -1,3 +1,5 @@
+@import "../../styles/colors";
+
 .container {
   display: flex;
   margin: 10px 0;
@@ -23,13 +25,13 @@
     font-weight: 500;
   }
   .text {
-    color: #4a4c4e;
+    color: $dimGray;
     font-size: 16px;
     line-height: 26px;
     height: 26px;
   }
   .light {
     font-size: 14px;
-    color: #7f7f7f;
+    color: $darkGray;
   }
 }

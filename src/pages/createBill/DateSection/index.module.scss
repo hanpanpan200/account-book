@@ -1,3 +1,5 @@
+@import "../../../styles/colors";
+
 .container {
   display: flex;
   flex-direction: row;
@@ -5,12 +7,12 @@
   justify-content: space-between;
   margin-top: 10px;
   padding: 16px;
-  background-color: white;
+  background-color: $white;
 
   label {
     font-size: 18px;
     font-weight: 400;
-    color: #7f7f7f;
+    color: $darkGray;
   }
   img {
     width: 30px;

@@ -22,11 +22,11 @@
     line-height: 40px;
   }
   .cancel {
-    color: black;
-    background-color: white;
+    color: $black;
+    background-color: $white;
   }
   .confirm {
-    color: white;
+    color: $white;
     background-color: $red;
   }
 }
