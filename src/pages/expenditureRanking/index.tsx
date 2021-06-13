@@ -36,7 +36,7 @@ const ExpenditureRanking = () => {
 
   return (
     <div className={styles.container}>
-      <PageHeader title='月度支出分析' style={styles.header}>
+      <PageHeader title='月度支出分析' style={styles.header} showBackButton>
         <MonthButton date={date} onClick={toggleMonthFilterModal}/>
         <div className={styles.headerLabel}>总支出: {totalExpenditureCurrency}</div>
       </PageHeader>

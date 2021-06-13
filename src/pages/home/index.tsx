@@ -60,7 +60,7 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <PageHeader title='我的账本' style={styles.header}>
+      <PageHeader title='我的账本' showBackButton={false} style={styles.header}>
         <CategoryButton category={category} onClick={toggleCategoryFilterModal} />
         <MonthButton date={date} onClick={toggleMonthFilterModal}/>
       </PageHeader>

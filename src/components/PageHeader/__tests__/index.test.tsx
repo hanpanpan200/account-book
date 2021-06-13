@@ -5,7 +5,7 @@ import PageHeader from '../index';
 describe('PageHeader', () => {
   it('should render correctly', () => {
     render(
-      <PageHeader title='HeaderTitle'>
+      <PageHeader title='HeaderTitle' showBackButton>
         <div>Header children</div>
       </PageHeader>
     );

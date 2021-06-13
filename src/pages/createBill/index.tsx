@@ -49,7 +49,7 @@ const CreateBill = () => {
 
   return (
     <div className={styles.container}>
-      <PageHeader title='记一笔' />
+      <PageHeader title='记一笔' showBackButton />
       <AmountSection amount={amount} onAmountChange={handleAmountChange} />
       <CategorySection
         selectedBillType={selectedBillType}
