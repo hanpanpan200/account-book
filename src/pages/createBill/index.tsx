@@ -1,52 +1,29 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useCategoryGroup, useDateFilter, useInitialCategories, useOnOffToggle } from 'hooks';
-import { Category, CategoryTypeName } from 'types/bill';
-import { getFullDateString } from 'utils/dateUtil';
-import { createBill } from 'utils/request';
-import { isValidAmount } from 'utils';
+import { useDateFilter, useOnOffToggle } from 'hooks';
+import { Category, BillTypeName } from 'types/bill';
+import { createNewBill, getBillInvalidMessage } from 'utils';
 import PageHeader from 'components/PageHeader';
-import HorizontalSplitter from 'components/HorizentalSplitter';
 import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';
 import BottomButtonGroup from 'components/BottomButtonGroup';
-import CategoryItem from './CategoryItem';
-import CategoryOptionButton from './CategoryOptionButton';
-import arrowRightIcon from 'assets/icons/arrow-right.svg';
 
 import styles from './index.module.scss';
-
-const categoryTypeNames = [CategoryTypeName.Expenditure, CategoryTypeName.Income];
+import CategorySection from './CategorySection';
+import DateSection from './DateSection';
+import AmountSection from './AmountSection';
 
 const CreateBill = () => {
   const [date, setDate] = useDateFilter();
-  const [amount, setAmount] = useState<string>('');
-  const categories = useInitialCategories();
-  const categoryGroup = useCategoryGroup(categories);
-  const [selectedCategoryType, setSelectedCategoryType] = useState<CategoryTypeName>(CategoryTypeName.Expenditure);
-  const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
   const [isDateFilterVisible, toggleDateFilterModal ] = useOnOffToggle(false);
-
   const history = useHistory();
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('event.target.value===', event.target.value);
-    setAmount(event.target.value);
-  }
+  const [amount, setAmount] = useState<string>('');
+  const [selectedCategoryType, setSelectedBillType] = useState<BillTypeName>(BillTypeName.Expenditure);
+  const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
 
-  console.log('amount=====', amount);
-
-  const selectedCategories = useMemo(
-    () => categoryGroup[selectedCategoryType.toString()] || [],
-    [categoryGroup, selectedCategoryType]
-  );
-
-  const handleCategoryTypeSelected = (categoryTypeName: CategoryTypeName) => {
-    setSelectedCategoryType(categoryTypeName);
-  };
-
-  const handleCategorySelected = (category: Category) => {
-    setSelectedCategory(category);
-  };
+  const handleAmountChange = (newAmount: string) => setAmount(newAmount);
+  const handleBillTypeSelected = (billTypeName: BillTypeName) => setSelectedBillType(billTypeName);
+  const handleCategorySelected = (category: Category) => setSelectedCategory(category);
 
   const updateDate = (date: Date) => {
     setDate(date);
@@ -54,20 +31,12 @@ const CreateBill = () => {
   };
 
   const handleConfirm = useCallback(() => {
-    if (!isValidAmount(amount)) {
-      alert('请填写正确的金额');
+    const invalidMessage = getBillInvalidMessage(amount, selectedCategory);
+    if (invalidMessage) {
+      alert(invalidMessage);
       return;
     }
-    if (selectedCategory === undefined) {
-      alert('请选择支出类型');
-      return;
-    }
-    createBill({
-      amount: parseFloat(amount),
-      category: selectedCategory.id,
-      time: date.getTime(),
-      type: selectedCategory.type
-    });
+    createNewBill(amount, selectedCategory as Category, date);
     history.goBack();
   }, [amount, selectedCategory, date, history]);
 
@@ -80,42 +49,14 @@ const CreateBill = () => {
   return (
     <div className={styles.container}>
       <PageHeader title='记一笔' />
-      <div className={styles.inputSection}>
-        <label>￥</label>
-        <input
-          type='number'
-          onChange={handleAmountChange}
-          value={amount}
-          placeholder='请输入金额'
-        />
-      </div>
-      <div className={styles.categorySection}>
-        <div className={styles.header}>
-          {categoryTypeNames.map(categoryTypeName =>
-            <CategoryOptionButton
-              key={categoryTypeName}
-              categoryTypeName={categoryTypeName}
-              selected={categoryTypeName === selectedCategoryType}
-              onClick={handleCategoryTypeSelected}
-            />
-          )}
-        </div>
-        <HorizontalSplitter />
-        <div className={styles.categoryList}>
-          {selectedCategories.map(category =>
-            <CategoryItem
-              key={category.id}
-              category={category}
-              selected={selectedCategory === category}
-              onClick={handleCategorySelected}
-            />
-          )}
-        </div>
-      </div>
-      <div className={styles.dateSection} onClick={toggleDateFilterModal}>
-        <label>{getFullDateString(date)}</label>
-        <img src={arrowRightIcon} alt='arrowRightIcon' />
-      </div>
+      <AmountSection amount={amount} onAmountChange={handleAmountChange} />
+      <CategorySection
+        selectedBillTypeName={selectedCategoryType}
+        onBillTypeSelected={handleBillTypeSelected}
+        onCategorySelected={handleCategorySelected}
+        selectedCategory={selectedCategory}
+      />
+      <DateSection date={date} onClick={toggleDateFilterModal} />
       <DateTimePicker
         title='选择时间'
         mode={DateTimePickerMode.DateTime}

@@ -1,4 +1,4 @@
-import { BillType, CategoryTypeName, FilterCondition, RawBill } from 'types/bill';
+import { BillType, BillTypeName, FilterCondition, RawBill } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
 import { DEFAULT_STATISTIC } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
@@ -114,9 +114,9 @@ describe('getCategoryGroup', () => {
   });
   it('should return blank when getCategoryGroup given categories are provided', () => {
     expect(getCategoryGroup([category1, category2, category3])).toEqual({
-      [CategoryTypeName.Income]: [category1],
-      [CategoryTypeName.Expenditure]: [category2],
-      [CategoryTypeName.Unknown]: [category3],
+      [BillTypeName.Income]: [category1],
+      [BillTypeName.Expenditure]: [category2],
+      [BillTypeName.Unknown]: [category3],
     });
   });
 });

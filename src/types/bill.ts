@@ -4,7 +4,7 @@ export enum BillType {
   Unknown,
 }
 
-export enum CategoryTypeName {
+export enum BillTypeName {
   Expenditure = '支出',
   Income = '收入',
   Unknown = '其他',

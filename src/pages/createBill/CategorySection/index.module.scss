@@ -1,0 +1,18 @@
+@import "../../../styles/colors";
+
+.container {
+  background-color: $white;
+  margin-top: 10px;
+  .header {
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+  }
+  .list {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 16px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}

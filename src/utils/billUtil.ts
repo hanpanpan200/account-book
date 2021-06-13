@@ -6,7 +6,7 @@ import {
   CategorizedBill,
   Category,
   CategoryGroup,
-  CategoryTypeName,
+  BillTypeName,
   FilterCondition,
   RawBill,
   Statistic
@@ -120,13 +120,13 @@ export const getCategoryGroup = (categories: Category[]): CategoryGroup => {
     let targetKey;
     switch (category.type) {
       case BillType.Income:
-        targetKey = CategoryTypeName.Income;
+        targetKey = BillTypeName.Income;
         break;
       case BillType.Expenditure:
-        targetKey = CategoryTypeName.Expenditure;
+        targetKey = BillTypeName.Expenditure;
         break;
       default:
-        targetKey = CategoryTypeName.Unknown;
+        targetKey = BillTypeName.Unknown;
         break;
     }
     if (categoryGroup[targetKey]) {
