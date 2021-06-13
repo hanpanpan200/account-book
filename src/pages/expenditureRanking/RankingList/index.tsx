@@ -5,6 +5,7 @@ import Card from 'components/Card';
 import CardItem from 'components/CardItem';
 import ProgressBar from 'components/ProgressBar';
 import RankItemTitle from '../RankItemTitle';
+import EmptyTips from 'components/EmptyTips';
 
 import styles from './index.module.scss';
 
@@ -13,6 +14,10 @@ interface Props {
 }
 
 const RankingList: React.FC<Props> = ({ categorizedBills }) => {
+  if (!categorizedBills || categorizedBills.length === 0) {
+    return <EmptyTips guidance='本月没有账单哦，试试查看其它月份吧！' />;
+  }
+
   return (
     <div className={styles.container}>
       <Card title='支出分类'>

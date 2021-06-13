@@ -32,7 +32,8 @@ const ExpenditureRanking = () => {
   const updateDate = (date: Date) => {
     setDate(date);
     toggleMonthFilterModal();
-  }
+  };
+
   return (
     <div className={styles.container}>
       <PageHeader title='月度支出分析' style={styles.header}>

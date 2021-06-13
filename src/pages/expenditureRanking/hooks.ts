@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchBills } from 'utils/request';
-import { BillType, Category, RawBill } from 'types/bill';
+import { BillType, CategorizedBill, Category, RawBill } from 'types/bill';
 import { getCategorizedBills, getFilteredRawBills, getTotalAmount } from 'utils/billUtil';
 import { getCurrency } from 'utils';
 
@@ -25,9 +25,9 @@ export const useTotalExpenditureCurrency = (totalAmount: number): string =>
 export const useTotalExpenditureAmount = (rawBills: RawBill[]): number =>
   useMemo(() => getTotalAmount(rawBills), [rawBills]);
 
-export const useCategorizedBills = (rawBills: RawBill[], categories: Category[], totalAmount: number) => {
-  return useMemo(
-    () => getCategorizedBills(rawBills, categories, totalAmount),
-    [rawBills, categories, totalAmount]
-  );
-}
+export const useCategorizedBills =
+  (rawBills: RawBill[], categories: Category[], totalAmount: number): CategorizedBill[] =>
+    useMemo(
+      () => getCategorizedBills(rawBills, categories, totalAmount),
+      [rawBills, categories, totalAmount]
+    );
