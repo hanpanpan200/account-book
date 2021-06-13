@@ -2,14 +2,14 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDateFilter, useOnOffToggle } from 'hooks';
 import { BillType, Category } from 'types/bill';
-import { createNewBill, getBillInvalidMessage } from 'utils';
-import { BILL_TYPE } from '../../constants';
+import { createNewBill, getBillInvalidMessage } from './util';
 import PageHeader from 'components/PageHeader';
 import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';
 import BottomButtonGroup from 'components/BottomButtonGroup';
 import CategorySection from './CategorySection';
 import DateSection from './DateSection';
 import AmountSection from './AmountSection';
+import { BILL_TYPE } from '../../constants';
 
 import styles from './index.module.scss';
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Bill, Category, Statistic } from 'types/bill';
 import { getCurrency } from 'utils';
 import { fetchBills } from 'utils/request';
-import { getBills, getStatisticsBy } from 'utils/billUtil';
+import { getBills, getStatisticsBy } from './util';
 import { DEFAULT_STATISTIC } from '../../constants';
 
 export const useInitialBills = (categories: Category[]): Bill[] => {

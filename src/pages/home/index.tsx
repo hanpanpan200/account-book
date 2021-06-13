@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { BillGroup, Category } from 'types/bill';
-import { getBillGroupBy } from 'utils/billUtil';
 import ROUTE from 'constants/route';
 import { useCategoryGroup, useDateFilter, useOnOffToggle, useInitialCategories } from 'hooks';
 import { useInitialBills, useMonthStatistic } from './hooks';
+import { getBillGroupBy } from './util';
 import PageHeader from 'components/PageHeader';
 import MonthButton from 'components/MonthButton';
 import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';

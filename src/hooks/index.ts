@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getNow } from 'utils/dateUtil';
-import { getCategoryGroup } from 'utils/billUtil';
-import { fetchCategories } from 'utils/request';
 import { Category, CategoryGroup } from 'types/bill';
+import { getNow } from 'utils/dateUtil';
+import { fetchCategories } from 'utils/request';
+import { getCategoryGroup } from '../utils';
 
 type UseToggleResult = [boolean, () => void];
 

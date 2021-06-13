@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchBills } from 'utils/request';
 import { CategorizedBill, Category, RawBill } from 'types/bill';
-import { getCategorizedBills, getFilteredRawBills, getTotalAmount } from 'utils/billUtil';
 import { getCurrency } from 'utils';
+import { getCategorizedBills, getFilteredRawBills, getTotalAmount } from './util';
 import { BILL_TYPE } from '../../constants';
 
 export const useExpenditureRawBillsForSelectedMonth = (date: Date): RawBill[] => {

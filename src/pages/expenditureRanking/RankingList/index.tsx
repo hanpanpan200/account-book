@@ -1,6 +1,6 @@
 import React from 'react';
 import { CategorizedBill } from 'types/bill';
-import { getPercentage, getRateString } from 'utils/billUtil';
+import { getRateString, getPercentage } from '../util';
 import Card from 'components/Card';
 import CardItem from 'components/CardItem';
 import ProgressBar from 'components/ProgressBar';

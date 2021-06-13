@@ -1,11 +1,11 @@
-import { BillType, Category } from 'types/bill';
+import { BillType, Category, CategoryGroup } from 'types/bill';
 import { BILL_TYPE, LOCALE } from '../constants';
-import { createBill } from './request';
 
 export enum SortDirection {
   Ascending,
   Descending,
 }
+
 export const compareNumber = (number1: number, number2: number, direction: SortDirection) => {
   return direction === SortDirection.Ascending ? number1 - number2 : number2 - number1;
 }
@@ -36,18 +36,28 @@ export const isValidAmount = (input: string) => {
   return floatReg.test(input) || integerReg.test(input)
 }
 
-export const getBillInvalidMessage = (amount: string, selectedCategory?: Category): string | undefined => {
-  if (!isValidAmount(amount)) {
-    return '请填写正确的金额';
-  }
-  return selectedCategory ? undefined : '请选择支出类型';
-}
+export const getCategoryGroup = (categories: Category[]): CategoryGroup => {
+  if (!categories || categories.length === 0) return {};
 
-export const createNewBill = (amount: string, selectedCategory: Category, date: Date) => {
-  createBill({
-    amount: parseFloat(amount),
-    category: selectedCategory.id,
-    time: date.getTime(),
-    type: selectedCategory.type.id
-  });
+  const reducer = (categoryGroup: CategoryGroup, category: Category) => {
+    let targetKey;
+    switch (category.type.id) {
+      case BILL_TYPE.INCOME.id:
+        targetKey = BILL_TYPE.INCOME.name;
+        break;
+      case BILL_TYPE.EXPENDITURE.id:
+        targetKey = BILL_TYPE.EXPENDITURE.name;
+        break;
+      default:
+        targetKey = BILL_TYPE.UNKNOWN.name;
+        break;
+    }
+    if (categoryGroup[targetKey]) {
+      categoryGroup[targetKey] = [...categoryGroup[targetKey], category];
+    } else {
+      categoryGroup[targetKey] = [category];
+    }
+    return categoryGroup;
+  }
+  return categories.reduce(reducer, {});
 }
