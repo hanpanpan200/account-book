@@ -15,7 +15,10 @@
     flex: 1;
   }
   .right {
-    width: 100px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     text-align: right;
     font-weight: 500;
   }

@@ -1,14 +1,9 @@
-export enum BillType {
-  Expenditure,
-  Income,
-  Unknown,
+export interface BillType {
+  id: number
+  name: string
 }
 
-export enum BillTypeName {
-  Expenditure = '支出',
-  Income = '收入',
-  Unknown = '其他',
-}
+export type BillTypeKey = number
 
 export interface Category {
   id: string
@@ -18,7 +13,7 @@ export interface Category {
 }
 
 export interface RawBill {
-  type: BillType,
+  type: BillTypeKey,
   time: number
   category: string
   amount: number

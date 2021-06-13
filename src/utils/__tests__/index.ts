@@ -1,5 +1,5 @@
-import { BillType } from 'types/bill';
 import { compareNumber, getCurrency, SortDirection } from '../index';
+import { BILL_TYPE } from '../../constants';
 
 describe('compareNumber', () => {
   it('should return -1 when compare 1 and 2 given sort direction is Descending', () => {
@@ -12,12 +12,12 @@ describe('compareNumber', () => {
 
 describe('getCurrency', () => {
   it('should return currency format for number when getCurrency is called given bill type is expenditure', () => {
-    expect(getCurrency(333333, BillType.Expenditure)).toEqual('-¥333,333.00');
+    expect(getCurrency(333333, BILL_TYPE.EXPENDITURE)).toEqual('-¥333,333.00');
   });
   it('should return currency format for number when getCurrency is called given bill type is income', () => {
-    expect(getCurrency(333333, BillType.Income)).toEqual('+¥333,333.00');
+    expect(getCurrency(333333, BILL_TYPE.INCOME)).toEqual('+¥333,333.00');
   });
   it('should return currency format for number when getCurrency is called given bill type is unknown', () => {
-    expect(getCurrency(333333, BillType.Unknown)).toEqual('¥333,333.00');
+    expect(getCurrency(333333, BILL_TYPE.UNKNOWN)).toEqual('¥333,333.00');
   });
 });

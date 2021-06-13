@@ -1,7 +1,8 @@
 import React from 'react';
-import { BillTypeName, Category } from 'types/bill';
+import { BillType, Category } from 'types/bill';
 import { useCategoryGroup, useInitialCategories } from 'hooks';
 import { useCategoriesForType } from '../hooks';
+import { BILL_TYPE } from '../../../constants';
 import HorizontalSplitter from 'components/HorizentalSplitter';
 import BillTypeButton from '../BillTypeButton';
 import CategoryItem from '../CategoryItem';
@@ -9,32 +10,32 @@ import CategoryItem from '../CategoryItem';
 import styles from './index.module.scss';
 
 interface Props {
-  selectedBillTypeName: BillTypeName
-  onBillTypeSelected: (billType: BillTypeName) => void
+  selectedBillType: BillType
+  onBillTypeSelected: (billType: BillType) => void
   selectedCategory?: Category
   onCategorySelected: (category: Category) => void
 }
 
-const billsTypeNames = [BillTypeName.Expenditure, BillTypeName.Income];
+const billsTypes = [BILL_TYPE.EXPENDITURE, BILL_TYPE.INCOME];
 
 const CategorySection: React.FC<Props> = ({
-    selectedBillTypeName,
+    selectedBillType,
     onBillTypeSelected,
     selectedCategory,
     onCategorySelected
   }) => {
   const categories = useInitialCategories();
   const categoryGroup = useCategoryGroup(categories);
-  const selectedCategories = useCategoriesForType(categoryGroup, selectedBillTypeName);
+  const selectedCategories = useCategoriesForType(categoryGroup, selectedBillType);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        {billsTypeNames.map(billTypeName =>
+        {billsTypes.map(billType =>
           <BillTypeButton
-            key={billTypeName}
-            billTypeName={billTypeName}
-            selectedBillType={billTypeName === selectedBillTypeName}
+            key={billType.id}
+            billType={billType}
+            selectedBillType={billType.id === selectedBillType.id}
             onClick={onBillTypeSelected}
           />
         )}

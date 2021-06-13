@@ -41,10 +41,10 @@ const CategoryModal: React.FC<Props> = ({ defaultCategory, categoryGroup, visibl
         <ModalHeader title='选择类型' rightIconSource={cancelIcon} onRightClick={handleCancel} />
         <HorizontalSplitter />
         <div className={styles.modalContent}>
-          {Object.entries(categoryGroup).map(([categoryTypeName, categories]) => {
+          {Object.entries(categoryGroup).map(([billTypeName, categories]) => {
             return (
-              <div key={categoryTypeName}>
-                <div className={styles.contentHeader}>{categoryTypeName}</div>
+              <div key={billTypeName}>
+                <div className={styles.contentHeader}>{billTypeName}</div>
                 <div className={styles.categoryList}>
                   {categories.map(category =>{
                     const categoryItemStyle = cx(styles.category, {

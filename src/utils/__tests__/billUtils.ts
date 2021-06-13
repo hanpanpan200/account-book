@@ -1,6 +1,6 @@
-import { BillType, BillTypeName, FilterCondition, RawBill } from 'types/bill';
+import { FilterCondition, RawBill } from 'types/bill';
 import { getBillGroupBy, getBills, getCategoryGroup, getStatisticsBy } from '../billUtil';
-import { DEFAULT_STATISTIC } from '../../constants';
+import { BILL_TYPE, DEFAULT_STATISTIC } from '../../constants';
 import carLoanIcon from 'assets/icons/car-loan.svg';
 import carMaintenanceIcon from 'assets/icons/car-maintenance.svg';
 import salaryIcon from 'assets/icons/salary.svg';
@@ -25,11 +25,17 @@ const bill1 = {
   category: {
     id: '1',
     name: '车贷',
-    type: 0,
+    type: {
+      id: 0,
+      name: '支出'
+    },
     icon: 'car-loan.svg'
   },
   id: 0,
-  type: 0,
+  type: {
+    id: 0,
+    name: '支出'
+  },
   createdDateTime: new Date(2019, 6),
   createdTime: '24:00',
 }
@@ -40,11 +46,17 @@ const bill2 = {
   category: {
     id: '2',
     name: '车辆保养',
-    type: 0,
+    type: {
+      id: 0,
+      name: '支出'
+    },
     icon: 'car-maintenance.svg'
   },
   id: 1,
-  type: 0,
+  type: {
+    id: 0,
+    name: '支出'
+  },
   createdDateTime: new Date(2019, 6),
   createdTime: '24:00'
 }
@@ -55,13 +67,13 @@ describe('getBills', () => {
   it('should return bill view model when getBills is called given params are provided ', () => {
     const category1 = {
       id: '1',
-      type: BillType.Expenditure,
+      type: BILL_TYPE.EXPENDITURE,
       name: '车贷',
       icon: carLoanIcon,
     }
     const category2 = {
       id: '2',
-      type: BillType.Expenditure,
+      type: BILL_TYPE.EXPENDITURE,
       name: '车辆保养',
       icon: carMaintenanceIcon,
     }
@@ -92,19 +104,19 @@ describe('getBillGroupBy', () => {
 describe('getCategoryGroup', () => {
   const category1 = {
     id: '1',
-    type: BillType.Income,
+    type: BILL_TYPE.INCOME,
     name: '工资',
     icon: salaryIcon,
   }
   const category2 = {
     id: '2',
-    type: BillType.Expenditure,
+    type: BILL_TYPE.EXPENDITURE,
     name: '车贷',
     icon: carLoanIcon,
   }
   const category3 = {
     id: '3',
-    type: BillType.Unknown,
+    type: BILL_TYPE.UNKNOWN,
     name: '未知类别',
     icon: otherIcon,
   }
@@ -114,9 +126,9 @@ describe('getCategoryGroup', () => {
   });
   it('should return blank when getCategoryGroup given categories are provided', () => {
     expect(getCategoryGroup([category1, category2, category3])).toEqual({
-      [BillTypeName.Income]: [category1],
-      [BillTypeName.Expenditure]: [category2],
-      [BillTypeName.Unknown]: [category3],
+      [BILL_TYPE.INCOME.name]: [category1],
+      [BILL_TYPE.EXPENDITURE.name]: [category2],
+      [BILL_TYPE.UNKNOWN.name]: [category3],
     });
   });
 });

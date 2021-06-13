@@ -2,28 +2,34 @@ import { add, divide, multiply, round } from 'mathjs';
 import {
   Bill,
   BillGroup,
-  BillType,
+  BillTypeKey,
   CategorizedBill,
   Category,
   CategoryGroup,
-  BillTypeName,
   FilterCondition,
   RawBill,
   Statistic
 } from 'types/bill';
-import { INVALID_CATEGORY } from '../constants';
+import { INVALID_CATEGORY, BILL_TYPE } from '../constants';
 import { getDate, getDateTime, getMonth, getTime, getYear, isSameMonth } from './dateUtil';
 import { compareNumber, getCurrency, SortDirection } from './index';
 
 export const getBills = (rawBills: RawBill[], categories: Category[]): Bill[] => {
   return rawBills.map((rawBill, index) => {
     const createdDateTime = getDateTime(rawBill.time);
+    let billType = BILL_TYPE.UNKNOWN;
+    if (rawBill.type === BILL_TYPE.INCOME.id) {
+      billType = BILL_TYPE.INCOME
+    }
+    if (rawBill.type === BILL_TYPE.EXPENDITURE.id) {
+      billType = BILL_TYPE.EXPENDITURE
+    }
     return {
       id: index,
       amount: rawBill.amount,
-      currency: getCurrency(rawBill.amount, rawBill.type),
+      currency: getCurrency(rawBill.amount, billType),
       category: categories.find(category => category.id === rawBill.category) || INVALID_CATEGORY,
-      type: rawBill.type,
+      type: billType,
       createdDateTime,
       createdTime: getTime(createdDateTime)
     }
@@ -66,10 +72,10 @@ export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Sta
   const reducer = (statistic: Statistic, bill: Bill) => {
       if (!isSameMonth(date, bill.createdDateTime)) return statistic;
 
-      if (bill.type === BillType.Income) {
+      if (bill.type.id === BILL_TYPE.INCOME.id) {
         statistic.totalIncome = add(statistic.totalIncome, bill.amount) as number;
       }
-      if (bill.type === BillType.Expenditure) {
+      if (bill.type.id === BILL_TYPE.EXPENDITURE.id) {
         statistic.totalExpenditure = add(statistic.totalExpenditure, bill.amount) as number;
       }
       return statistic;
@@ -77,7 +83,7 @@ export const getStatisticsBy = (bills: Bill[], date: Date, defaultStatistic: Sta
   return bills.reduce(reducer, { ...defaultStatistic });
 };
 
-export const getFilteredRawBills = (rawBills: RawBill[], billType: BillType, date: Date): RawBill[] => {
+export const getFilteredRawBills = (rawBills: RawBill[], billType: BillTypeKey, date: Date): RawBill[] => {
   if (!rawBills || rawBills.length === 0) return [];
 
   return rawBills.filter(rawBill => {
@@ -118,15 +124,15 @@ export const getCategoryGroup = (categories: Category[]): CategoryGroup => {
 
   const reducer = (categoryGroup: CategoryGroup, category: Category) => {
     let targetKey;
-    switch (category.type) {
-      case BillType.Income:
-        targetKey = BillTypeName.Income;
+    switch (category.type.id) {
+      case BILL_TYPE.INCOME.id:
+        targetKey = BILL_TYPE.INCOME.name;
         break;
-      case BillType.Expenditure:
-        targetKey = BillTypeName.Expenditure;
+      case BILL_TYPE.EXPENDITURE.id:
+        targetKey = BILL_TYPE.EXPENDITURE.name;
         break;
       default:
-        targetKey = BillTypeName.Unknown;
+        targetKey = BILL_TYPE.UNKNOWN.name;
         break;
     }
     if (categoryGroup[targetKey]) {

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import { BillTypeName } from 'types/bill';
+import { BillType } from 'types/bill';
+import { BILL_TYPE } from '../../../constants';
 
 import styles from './index.module.scss';
 
@@ -8,25 +9,25 @@ const cx = classNames.bind(styles);
 
 interface Props {
   selectedBillType: boolean
-  billTypeName: BillTypeName
-  onClick: (billTypeName: BillTypeName) => void
+  billType: BillType
+  onClick: (billType: BillType) => void
 }
 
-const BillTypeButton: React.FC<Props> = ({ billTypeName, selectedBillType, onClick }) => {
+const BillTypeButton: React.FC<Props> = ({ billType, selectedBillType, onClick }) => {
   const containerStyle = useMemo(() => {
     return cx(styles.container,  {
-      [styles.selectedGreen]: selectedBillType && billTypeName === BillTypeName.Expenditure,
-      [styles.selectedRed]: selectedBillType && billTypeName === BillTypeName.Income,
+      [styles.selectedGreen]: selectedBillType && billType.id === BILL_TYPE.EXPENDITURE.id,
+      [styles.selectedRed]: selectedBillType && billType.id === BILL_TYPE.INCOME.id,
     })
-  }, [selectedBillType, billTypeName]);
+  }, [selectedBillType, billType]);
 
   const handleClicked = useCallback(() => {
-    onClick(billTypeName);
-  }, [onClick, billTypeName]);
+    onClick(billType);
+  }, [onClick, billType]);
 
   return (
     <div className={containerStyle} onClick={handleClicked}>
-      {billTypeName.toString()}
+      {billType.name}
     </div>
   );
 };

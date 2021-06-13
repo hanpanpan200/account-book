@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchBills } from 'utils/request';
-import { BillType, CategorizedBill, Category, RawBill } from 'types/bill';
+import { CategorizedBill, Category, RawBill } from 'types/bill';
 import { getCategorizedBills, getFilteredRawBills, getTotalAmount } from 'utils/billUtil';
 import { getCurrency } from 'utils';
+import { BILL_TYPE } from '../../constants';
 
 export const useExpenditureRawBillsForSelectedMonth = (date: Date): RawBill[] => {
   const [expenditureBillsForMonth, setExpenditureBillsForMonth] = useState<RawBill[]>([]);
   useEffect(() => {
     fetchBills().then(rawBills => {
       if (rawBills) {
-        const targetRawBills = getFilteredRawBills(rawBills, BillType.Expenditure, date);
+        const targetRawBills = getFilteredRawBills(rawBills, BILL_TYPE.EXPENDITURE.id, date);
         setExpenditureBillsForMonth(targetRawBills);
       }
     }).catch(() => {

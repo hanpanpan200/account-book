@@ -1,16 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDateFilter, useOnOffToggle } from 'hooks';
-import { Category, BillTypeName } from 'types/bill';
+import { BillType, Category } from 'types/bill';
 import { createNewBill, getBillInvalidMessage } from 'utils';
+import { BILL_TYPE } from '../../constants';
 import PageHeader from 'components/PageHeader';
 import DateTimePicker, { DateTimePickerMode } from 'components/DatePicker';
 import BottomButtonGroup from 'components/BottomButtonGroup';
-
-import styles from './index.module.scss';
 import CategorySection from './CategorySection';
 import DateSection from './DateSection';
 import AmountSection from './AmountSection';
+
+import styles from './index.module.scss';
 
 const CreateBill = () => {
   const [date, setDate] = useDateFilter();
@@ -18,11 +19,11 @@ const CreateBill = () => {
   const history = useHistory();
 
   const [amount, setAmount] = useState<string>('');
-  const [selectedCategoryType, setSelectedBillType] = useState<BillTypeName>(BillTypeName.Expenditure);
+  const [selectedBillType, setSelectedBillType] = useState<BillType>(BILL_TYPE.EXPENDITURE);
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
 
   const handleAmountChange = (newAmount: string) => setAmount(newAmount);
-  const handleBillTypeSelected = (billTypeName: BillTypeName) => setSelectedBillType(billTypeName);
+  const handleBillTypeSelected = (billType: BillType) => setSelectedBillType(billType);
   const handleCategorySelected = (category: Category) => setSelectedCategory(category);
 
   const updateDate = (date: Date) => {
@@ -51,7 +52,7 @@ const CreateBill = () => {
       <PageHeader title='记一笔' />
       <AmountSection amount={amount} onAmountChange={handleAmountChange} />
       <CategorySection
-        selectedBillTypeName={selectedCategoryType}
+        selectedBillType={selectedBillType}
         onBillTypeSelected={handleBillTypeSelected}
         onCategorySelected={handleCategorySelected}
         selectedCategory={selectedCategory}

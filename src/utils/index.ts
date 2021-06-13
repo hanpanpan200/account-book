@@ -1,5 +1,5 @@
 import { BillType, Category } from 'types/bill';
-import { LOCALE } from '../constants';
+import { BILL_TYPE, LOCALE } from '../constants';
 import { createBill } from './request';
 
 export enum SortDirection {
@@ -17,11 +17,11 @@ export const getCurrency = (number: number, type?: BillType): string => {
     minimumFractionDigits: 2,
   });
   let label = '';
-  switch (type) {
-    case BillType.Expenditure:
+  switch (type?.id) {
+    case BILL_TYPE.EXPENDITURE.id:
       label = '-';
       break;
-    case BillType.Income:
+    case BILL_TYPE.INCOME.id:
       label = '+';
       break;
     default:
@@ -48,6 +48,6 @@ export const createNewBill = (amount: string, selectedCategory: Category, date: 
     amount: parseFloat(amount),
     category: selectedCategory.id,
     time: date.getTime(),
-    type: selectedCategory.type
+    type: selectedCategory.type.id
   });
 }
