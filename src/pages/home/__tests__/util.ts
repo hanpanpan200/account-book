@@ -62,7 +62,7 @@ describe('home util', () => {
 
   const bills = [bill1, bill2];
   describe('getBills', () => {
-    it('should return bill view model when getBills is called given params are provided ', () => {
+    it('should return bill view model when getBills is called given params are provided', () => {
       const category1 = {
         id: '1',
         type: BILL_TYPE.EXPENDITURE,

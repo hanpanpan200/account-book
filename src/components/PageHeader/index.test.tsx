@@ -28,7 +28,7 @@ describe('PageHeader', () => {
         <div>Header children</div>
       </PageHeader>
     );
-    let imgIcon = screen.getByAltText(/arrowLeftIcon/i);
+    const imgIcon = screen.getByAltText(/arrowLeftIcon/i);
     fireClickEvent(imgIcon);
     expect(mockedHistory.goBack).toBeCalled();
   });

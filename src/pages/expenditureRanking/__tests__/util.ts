@@ -53,7 +53,7 @@ describe('expenditure ranking test', () => {
     it('should return blank array when getCategorizedBills is called given categories are empty', () => {
       expect(getCategorizedBills([rawBill1, rawBill2], [], 0)).toEqual([]);
     });
-    it('should return blank array when getCategorizedBills is called given categories are empty', () => {
+    it('should return blank array when getCategorizedBills is called given categories are provided', () => {
       expect(getCategorizedBills([rawBill1, rawBill2, rawBill3], [category1, category2], 100)).toEqual(
         [
           {
