@@ -23,10 +23,8 @@ class LocalStorageClient implements DataSourceAdapter {
 
   private getLocalBills() {
     const localBills = this.getItem(STORAGE_KEY.BILL_LIST) as RawBill[];
-    if (localBills) {
-      return localBills;
-    }
-    const sortedList = BILLS.sort((bill1, bill2) =>
+    const targetBills = localBills || BILLS;
+    const sortedList = targetBills.sort((bill1, bill2) =>
       compareNumber(bill1.time, bill2.time, SortDirection.Descending));
     this.setItem(STORAGE_KEY.BILL_LIST, sortedList);
     return sortedList;
