@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BottomButtonGroup should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="button cancel"
+    >
+      取消
+    </div>
+    <div
+      class="button confirm"
+    >
+      确定
+    </div>
+  </div>
+</div>
+`;

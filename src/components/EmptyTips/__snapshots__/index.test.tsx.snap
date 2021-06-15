@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmptyTips should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <img
+      alt="emptyIcon"
+      src="empty.svg"
+    />
+    <div>
+      暂时无记录
+    </div>
+  </div>
+</div>
+`;

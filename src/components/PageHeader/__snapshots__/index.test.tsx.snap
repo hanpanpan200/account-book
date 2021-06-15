@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageHeader should render correctly when not show back button 1`] = `
+<div>
+  <header
+    class="container"
+  >
+    <div
+      class="titleContainer"
+    >
+      <h1>
+        HeaderTitle
+      </h1>
+    </div>
+    <div>
+      Header children
+    </div>
+  </header>
+</div>
+`;
+
+exports[`PageHeader should render correctly when show back button 1`] = `
+<div>
+  <header
+    class="container"
+  >
+    <div
+      class="titleContainer"
+    >
+      <img
+        alt="arrowLeftIcon"
+        src="arrow-left.svg"
+      />
+      <h1>
+        HeaderTitle
+      </h1>
+    </div>
+    <div>
+      Header children
+    </div>
+  </header>
+</div>
+`;

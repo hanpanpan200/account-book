@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProgressBar should render correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      style="width: 80%;"
+    />
+  </div>
+</div>
+`;

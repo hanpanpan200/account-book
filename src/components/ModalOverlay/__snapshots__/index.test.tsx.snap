@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalOverlay should render correctly when invisible 1`] = `
+<div>
+  <div
+    class="container hide"
+  >
+    <div>
+      Modal Content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalOverlay should render correctly when visible 1`] = `
+<div>
+  <div
+    class="container show"
+  >
+    <div>
+      Modal Content
+    </div>
+  </div>
+</div>
+`;

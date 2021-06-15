@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardItem should render correctly when title and description are provided as component 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="left"
+    >
+      <img
+        alt="leftIcon"
+        class="icon"
+        src="icon.svg"
+      />
+    </div>
+    <div
+      class="middle"
+    >
+      <div
+        class="text"
+      >
+        <div>
+          hello
+        </div>
+      </div>
+      <div
+        class="text light"
+      >
+        <div>
+          world
+        </div>
+      </div>
+    </div>
+    <div
+      class="right text"
+    >
+      内容
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CardItem should render correctly when title and description are provided as string 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="left"
+    >
+      <img
+        alt="leftIcon"
+        class="icon"
+        src="icon.svg"
+      />
+    </div>
+    <div
+      class="middle"
+    >
+      <div
+        class="text"
+      >
+        标题
+      </div>
+      <div
+        class="text light"
+      >
+        描述
+      </div>
+    </div>
+    <div
+      class="right text"
+    >
+      内容
+    </div>
+  </div>
+</div>
+`;

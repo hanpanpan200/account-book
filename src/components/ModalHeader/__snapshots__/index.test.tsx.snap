@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalHeader should render correctly when left and right button are provided as icon and titlePosition is Center 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <img
+      alt="modalHeaderLeftIcon"
+      class="left"
+      src="leftIcon.svg"
+    />
+    <span
+      class="centralTitle"
+    >
+      Modal Header Title
+    </span>
+    <img
+      alt="modalHeaderRightIcon"
+      class="right"
+      src="rightIcon.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`ModalHeader should render correctly when left and right button are provided as string and titlePosition is Left 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <span
+      class="left"
+    >
+      Left Button
+    </span>
+    <span
+      class="leftTitle centralTitle"
+    >
+      Modal Header Title
+    </span>
+    <span
+      class="right"
+    >
+      Right Button
+    </span>
+  </div>
+</div>
+`;

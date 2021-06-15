@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MonthButton should render correctly when date is not provided 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <span>
+      -年-月
+    </span>
+    <img
+      alt="arrowDownIcon"
+      src="arrow-down.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`MonthButton should render correctly when date is provided 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <span>
+      2021年7月
+    </span>
+    <img
+      alt="arrowDownIcon"
+      src="arrow-down.svg"
+    />
+  </div>
+</div>
+`;

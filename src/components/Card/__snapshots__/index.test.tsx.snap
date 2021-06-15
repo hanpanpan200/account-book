@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card should render correctly when multiple items are provided 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="title"
+    >
+      卡片标题
+    </div>
+    <div
+      class="content"
+    >
+      <div>
+        Item1
+      </div>
+      <div>
+        Item2
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card should render correctly when only one item is provided 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="title"
+    >
+      卡片标题
+    </div>
+    <div
+      class="content"
+    >
+      <div>
+        Item1
+      </div>
+    </div>
+  </div>
+</div>
+`;
