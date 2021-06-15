@@ -9,7 +9,7 @@ const STORAGE_KEY = {
 }
 
 class LocalStorageClient implements DataSourceAdapter {
-  private getItem = (key: string): object | null => {
+  private getItem = (key: string): unknown | null => {
     const value = localStorage.getItem(key);
     if (value) {
       return JSON.parse(value);
@@ -17,7 +17,7 @@ class LocalStorageClient implements DataSourceAdapter {
     return null;
   }
 
-  private setItem = (key: string, value: object) => {
+  private setItem = (key: string, value: unknown) => {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
