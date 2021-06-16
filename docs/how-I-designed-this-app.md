@@ -4,7 +4,7 @@
 
 于是我带着这样一个问题，先在 XMind 中脑暴了一下。 
 
-![FancyBook.png](./FancyBook.png)
+![FancyBook.png](images/fancy-book-xmind.png)
 
 于是，便产生了下面的结构化的思路模型：
 
@@ -47,23 +47,23 @@
 
 #### 灵魂画手的手稿图
 
-![draft.png](./draft.png)
+![draft.png](images/design-draft.png)
 
 #### 墨刀画的 prototype
 
-![home.png](./prototype/home.png)
-![ranking.png](./prototype/ranking.png)
-![create.png](./prototype/create.png)
+![home.png](images/design-home.png)
+![ranking.png](images/design-ranking.png)
+![create.png](images/design-create.png)
 
 ### Task Management - Trello
 
 在 Trello 中建了一些任务用来track进度
 
-![trello.png](./trello.png)
+![trello.png](images/trello.png)
 
 ### 前端架构设计
 
-![architecture.png](./architecture.png)
+![architecture.png](images/architecture-design.png)
 
 ## 遇到的问题及思考
 

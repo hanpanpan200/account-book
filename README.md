@@ -56,3 +56,7 @@ npm start
 ```
 npm test
 ```
+
+## How to play
+
+Please check this [showcase video](docs/videos/showcase.mp4) to know how to play with this FancyBook App.
