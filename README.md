@@ -8,7 +8,7 @@ Please find more about the thinking process at: [How I designed this App](./docs
 
 Please scan the QRCode below with your mobile phone to know how to play with this FancyBook App.
 
-![qrcode.png](./docs/images/qrcode.png)
+![qrcode.png](docs/images/qrcode-new.png)
 
 ## Dependencies
 
