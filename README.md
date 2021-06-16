@@ -4,6 +4,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Please find more about the thinking process at: [How I designed this App](./docs/how-I-designed-this-app.md).
 
+## How to play
+
+Please scan the QRCode below with your mobile phone to know how to play with this FancyBook App.
+
+![qrcode.png](./docs/images/qrcode.png)
+
 ## Dependencies
 
 - OS: macOS Big Sur (Version: 11.4)
@@ -68,9 +74,3 @@ npm test
 ## Interactive Prototype
 
 [FancyBook Prototype](https://v6.modao.cc/app/6f43d4201ca1893bce787d60a64cb27cc0f7a9fc?simulator_type=device&sticky)
-
-## How to play
-
-Please scan the QRCode below with your mobile phone to know how to play with this FancyBook App.
-
-![qrcode.png](./docs/images/qrcode.png)
