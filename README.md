@@ -71,4 +71,6 @@ npm test
 
 ## How to play
 
-Please check this [showcase video](docs/videos/showcase.mp4) to know how to play with this FancyBook App.
+Please scan the QRCode below with your mobile phone to know how to play with this FancyBook App.
+
+![qrcode.png](./docs/images/qrcode.png)
