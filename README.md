@@ -7,7 +7,7 @@ Please find more about the thinking process at: [How I designed this App](./docs
 ## Dependencies
 
 - OS: macOS Big Sur (Version: 11.4)
-- [nvm](https://github.com/nvm-sh/nvm): lock project node version by [.nvmrc](./.nvmrc)
+- [nvm](https://github.com/nvm-sh/nvm): is used for locking node version of the project, please make sure you have installed nvm in advance.
 
 ## Technologies
 
@@ -16,29 +16,33 @@ Please find more about the thinking process at: [How I designed this App](./docs
 - [Jest](https://jestjs.io/) : JavaScript Testing Framework
 - [Husky](https://typicode.github.io/husky/#/): git hooks make life easier
 
-## CI Pipeline
-
-[Github Actions](https://github.com/hanpanpan200/fancy-book/actions)
-
-## Interactive Prototype 
-
-[FancyBook Prototype](https://v6.modao.cc/app/6f43d4201ca1893bce787d60a64cb27cc0f7a9fc?simulator_type=device&sticky)
-
 ## How to run
 
-1. Lock node version
+1. Download codebase
+
+```
+git clone https://github.com/hanpanpan200/fancy-book.git
+```
+
+2. Go to target folder 
+
+```
+cd fancy-book
+```
+
+3. Lock node version
 
 ```
 nvm install && nvm use
 ```
 
-2. Install dependencies
+4. Install dependencies
 
 ```
 npm install
 ``` 
 
-3. Run in local environment
+5. Run in local environment
 
 ```
 npm start
@@ -48,14 +52,22 @@ npm start
 - Inspect
 - `toggle device toolbar`
 
-![inspect.png](./docs/toolbar.png)
+![inspect.png](./docs/images/toolbar.png)
 
 
-4. Run tests
+6. Run tests
 
 ```
 npm test
 ```
+
+## CI Pipeline
+
+[Github Actions](https://github.com/hanpanpan200/fancy-book/actions)
+
+## Interactive Prototype
+
+[FancyBook Prototype](https://v6.modao.cc/app/6f43d4201ca1893bce787d60a64cb27cc0f7a9fc?simulator_type=device&sticky)
 
 ## How to play
 
