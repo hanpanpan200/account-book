@@ -18,7 +18,7 @@ Please find more about the thinking process at: [How I designed this App](./docs
 
 ## CI Pipeline
 
-[Github Actions](https://github.com/hanpanpan200/account-book/actions)
+[Github Actions](https://github.com/hanpanpan200/fancy-book/actions)
 
 ## Interactive Prototype 
 

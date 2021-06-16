@@ -1,6 +1,6 @@
 {
-  "name": "account-book",
-  "version": "0.1.0",
+  "name": "fancy-book",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.13.0",
